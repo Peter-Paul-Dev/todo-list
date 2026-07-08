@@ -1,0 +1,31 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peter-Paul-Dev/todo-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Peter-Paul-Dev/todo-list/issues"
+  },
+  "homepage": "https://github.com/Peter-Paul-Dev/todo-list#readme",
+  "devDependencies": {
+    "css-loader": "^7.1.4",
+    "html-webpack-plugin": "^5.6.7",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1",
+    "webpack-merge": "^6.0.1"
+  }
+}
