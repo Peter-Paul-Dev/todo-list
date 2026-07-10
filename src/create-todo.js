@@ -7,9 +7,6 @@ class Todo {
         this.notes = notes;
    }
 
-   createTodo(title, description, dueDate, priority, notes) {
-        let newTodo = new Todo(title, description, dueDate, priority, notes);
-   }
 }
 
 export {Todo};
