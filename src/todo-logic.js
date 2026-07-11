@@ -1,20 +1,17 @@
-class Todo {
-   constructor(title, description, dueDate, priority, doneStatus, notes) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.doneStatus = doneStatus;
-        this.notes = notes;
-   }
+const myTodos = [];
 
-   changePriority(newPrio) {
-      this.priority = newPrio;
-   }
+function createTodo(title, description, dueDate, priority, doneStatus, notes) {
+   const todo = {
+      title: title,
+      description: description,
+      dueDate: dueDate,
+      priority: priority,
+      doneStatus: doneStatus,
+      notes: notes,
+   };
 
-   markComplete(updateStatus) {
-      this.doneStatus = updateStatus;
-   }
+   myTodos.push(todo);
+   return todo;
 }
 
-export {Todo};
+export { myTodos, createTodo };
