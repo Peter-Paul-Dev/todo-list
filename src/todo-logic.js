@@ -1,4 +1,4 @@
-const myTodos = [];
+const defaultProjects = [];
 
 function createTodo(title, description, dueDate, priority, doneStatus, notes) {
    const todo = {
@@ -10,8 +10,17 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       notes: notes,
    };
 
-   myTodos.push(todo);
-   return todo;
-}
+   defaultProjects.push(todo);
 
-export { myTodos, createTodo };
+   function changePriority(newPrio) {
+      todo.priority = newPrio;
+   }
+
+   function markComplete(newStatus) {
+      todo.doneStatus = newStatus;
+   }
+
+   return todo, {changePriority, markComplete};
+   }
+
+export { defaultProjects, createTodo };
