@@ -16,11 +16,19 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       todo.priority = newPrio;
    }
 
+   function addToProject(arr) {
+      arr.push(todo);
+   }
+
    function markComplete(newStatus) {
       todo.doneStatus = newStatus;
    }
 
-   return todo, {changePriority, markComplete};
+   return {todo, changePriority, addToProject, markComplete};
    }
 
-export { defaultProjects, createTodo };
+function createNewProject(newProj) {
+   return newProj = [];
+}   
+
+export { defaultProjects, createTodo, createNewProject };
