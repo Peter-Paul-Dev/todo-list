@@ -29,7 +29,9 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
 }
 
 function createNewProject(newProj) {
-   return newProj = [];
+   newProj = [];
+
+   return newProj;
 }   
 
 export { allTodos, allProjects, createTodo, createNewProject };

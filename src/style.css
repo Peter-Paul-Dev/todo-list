@@ -11,12 +11,14 @@
 }
 
 .sidebar {
-    background-color: black;
+    display: flex;
+    flex-flow: column wrap;
+    background-color: yellow;
+    justify-content: space-between;
     grid-column: 1/2;
-    justify-self: stretch;
+    padding: 1rem;
 }
 
 .todo-display {
     grid-column: 2/3;
-    justify-self: stretch;
 }
