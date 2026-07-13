@@ -1,4 +1,22 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background-color: black;
+    grid-column: 1/2;
+    justify-self: stretch;
+}
+
+.todo-display {
+    grid-column: 2/3;
+    justify-self: stretch;
 }
