@@ -1,12 +1,12 @@
 import "./style.css";
-import { defaultProjects, createTodo, createNewProject } from "./todo-logic.js";
+import { allTodos, createTodo, createNewProject } from "./todo-logic.js";
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not urgent", "Not done", "None");
 
 myTask.changePriority("Urgent");
 myTask.markComplete("Done");
 
-console.log(defaultProjects);
+console.log(allTodos);
 
 const newArr = createNewProject("newArr");
 console.log(newArr);
