@@ -1,6 +1,18 @@
 const allTodos = [];
 const allProjects = [allTodos];
 
+allTodos.removeTodo = function(obj) {
+      const matchedTodo = allTodos.findIndex(obj => obj.title == allTodos.map(item => item.title));
+
+      allTodos.splice(matchedTodo, 1);
+   }
+
+allProjects.removeProject = function (arr) {
+      const matchedProj = allProjects.findIndex(arr => arr.title == allProjects.map(item => item.title));
+
+      allProjects.splice(matchedProj, 1);
+}  
+
 function createTodo(title, description, dueDate, priority, doneStatus, notes) {
    const todo = {
       title: title,
@@ -11,8 +23,6 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       notes: notes,
    };
 
-   allTodos.push(todo);
-
    todo.changePriority = function(newPrio) {
       todo.priority = newPrio;
    }
@@ -21,6 +31,7 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       todo.doneStatus = newStatus;
    }
 
+   allTodos.push(todo);
    return todo;
 }
 
@@ -37,6 +48,7 @@ function createNewProject(newProj) {
       newProj.push(obj);
    }
 
+   allProjects.push(newProj);
    return newProj;
 }   
 
