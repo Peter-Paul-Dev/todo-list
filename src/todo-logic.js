@@ -13,23 +13,29 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
 
    allTodos.push(todo);
 
-   function changePriority(newPrio) {
+   todo.changePriority = function(newPrio) {
       todo.priority = newPrio;
    }
 
-   function addToProject(arr) {
-      arr.push(todo);
-   }
-
-   function markComplete(newStatus) {
+   todo.markComplete = function(newStatus) {
       todo.doneStatus = newStatus;
    }
 
-   return {todo, changePriority, addToProject, markComplete};
+   return todo;
 }
 
 function createNewProject(newProj) {
    newProj = [];
+
+   newProj.removeTodo = function () {
+      const matchedTodo = newProj.findIndex(obj => obj.title == newProj.map(item => item.title));
+
+      newProj.splice(matchedTodo, 1);
+   }  
+
+   newProj.addToProject = function(obj) {
+      newProj.push(obj);
+   }
 
    return newProj;
 }   
