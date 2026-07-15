@@ -1,15 +1,19 @@
 const allTodos = [];
+allTodos.title = "allTodos";
+
 const allProjects = [allTodos];
 
 allTodos.removeTodo = function(obj) {
-      const matchedTodo = allTodos.findIndex(obj => obj.title == allTodos.map(item => item.title));
+      const targetTodo = obj.title;
+      const matchedTodo = allTodos.findIndex((item) => item.title == targetTodo);
 
+      obj.parentProjects = [];
       allTodos.splice(matchedTodo, 1);
-      matchedTodo.parentProjects = [];
-   }
+}
 
-allProjects.removeProject = function (arr) {
-      const matchedProj = allProjects.findIndex(arr => arr.title == allProjects.map(item => item.title));
+allProjects.removeProject = function(arr) {
+      const targetProject = arr.title;
+      const matchedProj = allProjects.findIndex((arr) => arr.title == targetProject);
 
       allProjects.splice(matchedProj, 1);
 }  
@@ -38,26 +42,27 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
 }
 
 function createNewProject(newProj) {
-   newProj = {
-      name: newProj,
-      todoList: [],
-   }
+   const proj = [];
+   proj.title = newProj;
 
-   newProj.todoList.removeTodo = function(obj) {
-      const matchedTodo = newProj.todoList.findIndex(obj => obj.title == newProj.todoList.map(item => item.title));
-      const matchedParentProj = obj.parentProjects.findIndex((item) => item == newProj.name);   
+   proj.removeTodo = function(obj) {
+      const targetTodo = obj.title;
+      const matchedTodo = proj.findIndex((item) => item.title == targetTodo);
 
-      newProj.todoList.splice(matchedTodo, 1);
+      const todoParentProjs = obj.parentProjects;
+      const matchedParentProj = todoParentProjs.findIndex((item) => item == proj.title);   
+
+      proj.splice(matchedTodo, 1);
       obj.parentProjects.splice(matchedParentProj, 1);
    }  
 
-   newProj.todoList.addToProject = function(obj) {
-      newProj.todoList.push(obj);
-      obj.parentProjects.push(newProj.name);
+   proj.addToProject = function(obj) {
+      proj.push(obj);
+      obj.parentProjects.push(proj.title);
    }
 
-   allProjects.push(newProj);
-   return newProj;
+   allProjects.push(proj);
+   return proj;
 }   
 
 export { allTodos, allProjects, createTodo, createNewProject };

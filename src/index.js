@@ -11,11 +11,13 @@ const newArr = createNewProject("newArr");
 const newTask = createTodo("Test stuff", "Finish testing stuff", "When I feel like it", "Not urgent", "Not done", "None");
 const newerTask = createTodo("Buy food", "Buy food for tomorrow", "Tonight", "Urgent", "Not done", "Remeber to buy mayo");
 
-newArr.todoList.addToProject(newTask);
-newArr.todoList.addToProject(newerTask);
+newArr.addToProject(newTask);
+newArr.addToProject(newerTask);
 
-console.log(newArr);
+console.log(allProjects);
 console.log(allTodos);
-
-newArr.todoList.removeTodo(newTask);
 console.log(newArr);
+
+allTodos.removeTodo(myTask);
+
+console.log(myTask);
