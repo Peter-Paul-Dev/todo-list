@@ -16,7 +16,13 @@ allProjects.removeProject = function(arr) {
       const targetProject = arr.title;
       const matchedProj = allProjects.findIndex((arr) => arr.title == targetProject);
 
-      allProjects.splice(matchedProj, 1);
+      if (targetProject == "allTodos") {
+         console.log("You can't delete that")
+      } 
+      
+      else {
+         allProjects.splice(matchedProj, 1);
+      }
 }  
 
 function createTodo(title, description, dueDate, priority, doneStatus, notes) {
