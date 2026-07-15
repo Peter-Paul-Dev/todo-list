@@ -5,6 +5,7 @@ allTodos.removeTodo = function(obj) {
       const matchedTodo = allTodos.findIndex(obj => obj.title == allTodos.map(item => item.title));
 
       allTodos.splice(matchedTodo, 1);
+      matchedTodo.parentProjects = [];
    }
 
 allProjects.removeProject = function (arr) {
@@ -21,6 +22,7 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       priority: priority,
       doneStatus: doneStatus,
       notes: notes,
+      parentProjects: ["allTodos"],
    };
 
    todo.changePriority = function(newPrio) {
@@ -36,16 +38,22 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
 }
 
 function createNewProject(newProj) {
-   newProj = [];
+   newProj = {
+      name: newProj,
+      todoList: [],
+   }
 
-   newProj.removeTodo = function () {
-      const matchedTodo = newProj.findIndex(obj => obj.title == newProj.map(item => item.title));
+   newProj.todoList.removeTodo = function(obj) {
+      const matchedTodo = newProj.todoList.findIndex(obj => obj.title == newProj.todoList.map(item => item.title));
+      const matchedParentProj = obj.parentProjects.findIndex((item) => item == newProj.name);   
 
-      newProj.splice(matchedTodo, 1);
+      newProj.todoList.splice(matchedTodo, 1);
+      obj.parentProjects.splice(matchedParentProj, 1);
    }  
 
-   newProj.addToProject = function(obj) {
-      newProj.push(obj);
+   newProj.todoList.addToProject = function(obj) {
+      newProj.todoList.push(obj);
+      obj.parentProjects.push(newProj.name);
    }
 
    allProjects.push(newProj);
