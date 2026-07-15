@@ -7,6 +7,7 @@ allTodos.removeTodo = function(obj) {
       const targetTodo = obj.title;
       const matchedTodo = allTodos.findIndex((item) => item.title == targetTodo);
 
+      obj.removeFromParents();
       obj.parentProjects = [];
       allTodos.splice(matchedTodo, 1);
 }
@@ -37,6 +38,21 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       todo.doneStatus = newStatus;
    }
 
+   todo.removeFromParents = function() {
+      const projectsBesidesAllTodos = allProjects.slice(1);
+
+      projectsBesidesAllTodos.forEach(arr => {
+         const targetParentProj = arr.title;
+         const todoParentProjs = todo.parentProjects;
+         //if any element in parentProjects is == item.title, run item.removeTodoFromProject(obj)
+         
+         if (todoParentProjs.includes(arr.title) == true) {
+            arr.removeTodoFromProject(todo);
+            return arr;
+         }
+      });
+   }
+
    allTodos.push(todo);
    return todo;
 }
@@ -45,7 +61,7 @@ function createNewProject(newProj) {
    const proj = [];
    proj.title = newProj;
 
-   proj.removeTodo = function(obj) {
+   proj.removeTodoFromProject = function(obj) {
       const targetTodo = obj.title;
       const matchedTodo = proj.findIndex((item) => item.title == targetTodo);
 

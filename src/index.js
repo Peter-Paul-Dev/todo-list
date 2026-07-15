@@ -18,6 +18,6 @@ console.log(allProjects);
 console.log(allTodos);
 console.log(newArr);
 
-allTodos.removeTodo(myTask);
+allTodos.removeTodo(newTask);
 
-console.log(myTask);
+console.log(newTask);
