@@ -28,8 +28,8 @@ allProjects.removeProject = function(arr) {
 function createTodo(title, description, dueDate, priority, doneStatus, notes) {
    const todo = {
       title: title,
-      description: description,
       dueDate: dueDate,
+      description: description,
       priority: priority,
       doneStatus: doneStatus,
       notes: notes,
