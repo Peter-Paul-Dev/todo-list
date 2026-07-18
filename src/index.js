@@ -1,5 +1,6 @@
 import "./style.css";
 import { allTodos, createTodo, createNewProject, allProjects } from "./todo-logic.js";
+import { displaySection, displayTodo } from "./manipulate-dom.js";
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not urgent", "Not done", "None");
 
@@ -21,3 +22,5 @@ console.log(newArr);
 allTodos.removeTodo(newTask);
 
 console.log(newTask);
+
+displayTodo(myTask);

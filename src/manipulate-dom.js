@@ -1,6 +1,4 @@
-import { allTodos, createTodo, createNewProject, allProjects } from "./todo-logic.js";
-
-const displaySection = document.getElementById("todo-display");
+const displaySection = document.querySelector(".todo-display");
 
 function displayTodo(obj) {
     const todoContainer  = document.createElement("div");
@@ -32,3 +30,5 @@ function displayTodo(obj) {
     
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
 }
+
+export {displaySection, displayTodo};

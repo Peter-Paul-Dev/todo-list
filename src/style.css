@@ -57,4 +57,5 @@ div {
 
 .todo-display {
     grid-column: 2/3;
+    padding: 0.5rem;
 }
