@@ -50,9 +50,8 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
       projectsBesidesAllTodos.forEach(arr => {
          const targetParentProj = arr.title;
          const todoParentProjs = todo.parentProjects;
-         //if any element in parentProjects is == item.title, run item.removeTodoFromProject(obj)
          
-         if (todoParentProjs.includes(arr.title) == true) {
+         if (todoParentProjs.includes(targetParentProj) == true) {
             arr.removeTodoFromProject(todo);
             return arr;
          }
