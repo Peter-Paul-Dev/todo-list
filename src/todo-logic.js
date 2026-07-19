@@ -10,6 +10,7 @@ allTodos.removeTodo = function(obj) {
       obj.removeFromParents();
       obj.parentProjects = [];
       allTodos.splice(matchedTodo, 1);
+      obj = null;
 }
 
 allProjects.removeProject = function(arr) {
@@ -52,9 +53,10 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
          const todoParentProjs = todo.parentProjects;
          
          if (todoParentProjs.includes(targetParentProj) == true) {
-            arr.removeTodoFromProject(todo);
-            return arr;
+           return arr.removeTodoFromProject(todo);
          }
+
+         todo = null;
       });
    }
 

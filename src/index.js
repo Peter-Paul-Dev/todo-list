@@ -15,16 +15,10 @@ const newerTask = createTodo("Buy food", "Buy food for tomorrow", "Tonight", "Ur
 newArr.addToProject(newTask);
 newArr.addToProject(newerTask);
 
-console.log(allProjects);
-console.log(allTodos);
-console.log(newArr);
-
 allTodos.removeTodo(newTask);
 
 console.log(newTask);
+console.log(allTodos);
+console.log(newArr);
 
-displayTodo(myTask);
 displayTodo(newTask);
-
-createTaskList(allTodos);
-createProjectList(allProjects);
