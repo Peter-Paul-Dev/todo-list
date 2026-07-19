@@ -59,3 +59,7 @@ div {
     grid-column: 2/3;
     padding: 0.5rem;
 }
+
+.todo-info {
+    padding: 0.5rem;
+}

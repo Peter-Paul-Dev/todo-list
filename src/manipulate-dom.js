@@ -4,7 +4,7 @@ function displayTodo(obj) {
     displaySection.textContent = "";
 
     const todoContainer  = document.createElement("div");
-    todoContainer.classList.add("todo-container");
+    todoContainer.classList.add("todo-info");
     displaySection.append(todoContainer);
 
     const titleText = document.createElement("h1");
@@ -34,4 +34,36 @@ function displayTodo(obj) {
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
 }
 
-export {displaySection, displayTodo};
+function createTaskList(arr) {
+    const taskContainer = document.querySelector(".tasks");
+
+    const tasksList = document.createElement("ul");
+
+    arr.forEach(item => {
+        const taskItem = document.createElement("li");
+        taskItem.textContent = item.title;
+
+        tasksList.append(taskItem);
+    });
+
+    taskContainer.append(tasksList);
+}
+
+function createProjectList(arr) {
+    const allProjectsExceptAllTodos = arr.splice(1);
+
+    const projectContainer = document.querySelector(".projects");
+
+    const projectList = document.createElement("ul");
+
+    allProjectsExceptAllTodos.forEach(item => {
+        const projectItem = document.createElement("li");
+        projectItem.textContent = item.title;
+
+        projectList.append(projectItem);
+    });
+
+    projectContainer.append(projectList);
+}
+
+export {displaySection, displayTodo, createTaskList, createProjectList};
