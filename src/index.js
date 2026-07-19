@@ -24,3 +24,4 @@ allTodos.removeTodo(newTask);
 console.log(newTask);
 
 displayTodo(myTask);
+displayTodo(newTask);
