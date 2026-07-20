@@ -1,28 +1,41 @@
 const allTodos = [];
-allTodos.title = "allTodos";
+allTodos.title = "All Tasks";
 
 const allProjects = [allTodos];
 
-allTodos.removeTodo = function(obj) {
-      const targetTodo = obj.title;
-      const matchedTodo = allTodos.findIndex((item) => item.title == targetTodo);
+function findMatch(target, arr) {
+    if (!arr || arr.length === 0) {
+       console.warn(`findMatch failed: Array for "${target}" is empty or undefined.`);
+   }
+   
+   const match = arr.find((item) => item.title == target);
 
-      obj.removeFromParents();
-      obj.parentProjects = [];
-      allTodos.splice(matchedTodo, 1);
-      obj = null;
+   if (!match) {
+       console.warn(`findMatch failed: No object found with title "${target}".`);
+   }
+
+   return match;
 }
 
-allProjects.removeProject = function(arr) {
-      const targetProject = arr.title;
-      const matchedProj = allProjects.findIndex((arr) => arr.title == targetProject);
+allTodos.removeTodo = function(targetTitle) {
+      const targetTodo = findMatch(targetTitle, allTodos);
+      const todoIndex = allTodos.findIndex((item) => item == targetTodo);
 
-      if (targetProject == "allTodos") {
+      targetTodo.removeFromParents();
+      targetTodo.parentProjects = [];
+      allTodos.splice(todoIndex, 1);
+}
+
+allProjects.removeProject = function(targetTitle) {
+      const targetProject = findMatch(targetTitle, allProjects);
+      const projIndex = allProjects.findIndex((arr) => arr.title == targetProject);
+
+      if (targetProject == "All Tasks") {
          console.log("You can't delete that")
       } 
       
       else {
-         allProjects.splice(matchedProj, 1);
+         allProjects.splice(projIndex, 1);
       }
 }  
 
@@ -55,8 +68,6 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
          if (todoParentProjs.includes(targetParentProj) == true) {
            return arr.removeTodoFromProject(todo);
          }
-
-         todo = null;
       });
    }
 
@@ -68,24 +79,25 @@ function createNewProject(newProj) {
    const proj = [];
    proj.title = newProj;
 
-   proj.removeTodoFromProject = function(obj) {
-      const targetTodo = obj.title;
-      const matchedTodo = proj.findIndex((item) => item.title == targetTodo);
+   proj.removeTodoFromProject = function(targetTitle) {
+      const targetTodo = findMatch(targetTitle, proj);
+      const todoIndex = proj.findIndex((item) => item.title == targetTodo.title);
 
-      const todoParentProjs = obj.parentProjects;
-      const matchedParentProj = todoParentProjs.findIndex((item) => item == proj.title);   
+      const todoParentProjs = targetTodo.parentProjects;
+      const parentProjIndex = todoParentProjs.findIndex((item) => item == proj.title);   
 
-      proj.splice(matchedTodo, 1);
-      obj.parentProjects.splice(matchedParentProj, 1);
+      proj.splice(todoIndex, 1);
+      todoParentProjs.splice(parentProjIndex, 1);
    }  
 
-   proj.addToProject = function(obj) {
-      proj.push(obj);
-      obj.parentProjects.push(proj.title);
+   proj.addToProject = function(targetTitle) {
+      const targetTodo = findMatch(targetTitle, allTodos);
+      proj.push(targetTodo);
+      targetTodo.parentProjects.push(proj.title);
    }
 
    allProjects.push(proj);
    return proj;
 }   
 
-export { allTodos, allProjects, createTodo, createNewProject };
+export { allTodos, allProjects, findMatch, createTodo, createNewProject };

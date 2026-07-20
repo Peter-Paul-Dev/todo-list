@@ -1,5 +1,5 @@
 import "./style.css";
-import { allTodos, createTodo, createNewProject, allProjects } from "./todo-logic.js";
+import { allTodos, createTodo, findMatch, createNewProject, allProjects } from "./todo-logic.js";
 import { displaySection, displayTodo, createTaskList, createProjectList } from "./manipulate-dom.js";
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not urgent", "Not done", "None");
@@ -12,13 +12,8 @@ const newArr = createNewProject("My New Project List");
 const newTask = createTodo("Test stuff", "Finish testing stuff", "When I feel like it", "Not urgent", "Not done", "None");
 const newerTask = createTodo("Buy food", "Buy food for tomorrow", "Tonight", "Urgent", "Not done", "Remeber to buy mayo");
 
-newArr.addToProject(newTask);
-newArr.addToProject(newerTask);
-
-allTodos.removeTodo(newTask);
-
-console.log(newTask);
 console.log(allTodos);
 console.log(newArr);
 
-displayTodo(newTask);
+newArr.addToProject("Test stuff");
+newArr.removeTodoFromProject("Test stuff");
