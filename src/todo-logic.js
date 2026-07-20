@@ -31,7 +31,7 @@ allProjects.removeProject = function(targetTitle) {
       const projIndex = allProjects.findIndex((arr) => arr.title == targetProject);
 
       if (targetProject == "All Tasks") {
-         console.log("You can't delete that")
+         console.warn("You can't delete that")
       } 
       
       else {
@@ -51,11 +51,11 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
    };
 
    todo.changePriority = function(newPrio) {
-      todo.priority = newPrio;
+      return todo.priority = newPrio;
    }
 
    todo.markComplete = function(newStatus) {
-      todo.doneStatus = newStatus;
+      return todo.doneStatus = newStatus;
    }
 
    todo.removeFromParents = function() {

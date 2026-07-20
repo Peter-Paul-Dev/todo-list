@@ -1,6 +1,10 @@
+import { findMatch } from "./todo-logic.js";
+
 const displaySection = document.querySelector(".todo-display");
 
-function displayTodo(obj) {
+function displayTodo(targetTitle, arr) {
+    const targetTodo = findMatch(targetTitle, arr);
+
     displaySection.textContent = "";
 
     const todoContainer  = document.createElement("div");
@@ -9,27 +13,27 @@ function displayTodo(obj) {
 
     const titleText = document.createElement("h1");
     titleText.classList.add("title");
-    titleText.textContent = obj.title; 
+    titleText.textContent = targetTodo.title; 
 
     const dueDateText = document.createElement("p");
     dueDateText.classList.add("due-date");
-    dueDateText.textContent = `Due date: ${obj.dueDate}`;
+    dueDateText.textContent = `Due date: ${targetTodo.dueDate}`;
 
     const descriptionText = document.createElement("p");
     descriptionText.classList.add("description");
-    descriptionText.textContent = `Description: ${obj.description}`;
+    descriptionText.textContent = `Description: ${targetTodo.description}`;
 
     const priorityText = document.createElement("p");
     priorityText.classList.add("priority");
-    priorityText.textContent = `Priority: ${obj.priority}`;
+    priorityText.textContent = `Priority: ${targetTodo.priority}`;
 
     const doneStatusText = document.createElement("p");
     doneStatusText.classList.add("done-status");
-    doneStatusText.textContent = `Status: ${obj.doneStatus}`; 
+    doneStatusText.textContent = `Status: ${targetTodo.doneStatus}`; 
 
     const notesText = document.createElement("p");
     notesText.classList.add("notes");
-    notesText.textContent = `Notes: ${obj.notes}`;
+    notesText.textContent = `Notes: ${targetTodo.notes}`;
     
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
 }
