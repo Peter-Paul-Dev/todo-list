@@ -3,9 +3,10 @@ import { findMatch } from "./todo-logic.js";
 const displaySection = document.querySelector(".todo-display");
 
 function displayTodo(targetTitle, arr) {
-    const targetTodo = findMatch(targetTitle, arr);
-
+    displaySection.classList.add(".todo-display");
     displaySection.textContent = "";
+
+    const targetTodo = findMatch(targetTitle, arr);
 
     const todoContainer  = document.createElement("div");
     todoContainer.classList.add("todo-info");
