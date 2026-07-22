@@ -45,7 +45,7 @@ function createTaskList(arr) {
 
     arr.forEach(item => {
         const taskItem = document.createElement("li");
-        taskItem.textContent = item.title;
+        taskItem.textContent = `${item.title}: ${item.dueDate}`;
 
         tasksList.append(taskItem);
     });

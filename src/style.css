@@ -35,20 +35,28 @@ div {
     font-size: 2rem;
 }
 
-.sidebar div {
-    padding: 0.3rem;
-}
-
 .todo-and-project-list {
     display: grid;
     grid-row: 2/3;
     grid-template-rows: 1fr 1fr;
 }
 
+.tasks, .projects {
+    padding: 0.4rem;
+}
+
+.tasks ul, .projects ul {
+    list-style-type: none;
+}
+
 .technical-section {
     display: flex;
     flex-flow: column;
     gap: 0.5rem;
+}
+
+.technical-section div {
+    padding: 0.3rem;
 }
 
 .technical-section h4 {
@@ -62,4 +70,5 @@ div {
 
 .todo-info {
     padding: 0.5rem;
+    border-radius: 1.5rem;
 }
