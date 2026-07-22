@@ -50,6 +50,7 @@ function displayTodoInProjects (targetTitle, arr) {
     targetProject.forEach(todo => {
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
+        todoContainer.dataset.taskTitle = todo.title;
         displaySection.append(todoContainer);
 
         const titleText = document.createElement("h1");
@@ -61,6 +62,15 @@ function displayTodoInProjects (targetTitle, arr) {
         dueDateText.textContent = todo.dueDate;
 
         todoContainer.append(titleText, dueDateText);
+    })
+
+    displaySection.addEventListener("click", (e) => {
+        const clickedTask = e.target.dataset.taskTitle;
+
+        if (!clickedTask) {return;}
+
+        console.log(arr);
+        displayTodo(clickedTask, targetProject);
     })
 }
 
@@ -106,7 +116,6 @@ function createProjectList(arr) {
 
     projectContainer.addEventListener("click", (e) => {
         const clickedProject = e.target.dataset.projectTitle;
-        console.log(clickedProject);
 
         if (!clickedProject) {return;}
 

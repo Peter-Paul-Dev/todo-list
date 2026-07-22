@@ -72,3 +72,11 @@ div {
     padding: 0.5rem;
     border-radius: 1.5rem;
 }
+
+.projects-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
