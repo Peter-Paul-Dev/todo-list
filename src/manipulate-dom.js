@@ -46,9 +46,19 @@ function createTaskList(arr) {
     arr.forEach(item => {
         const taskItem = document.createElement("li");
         taskItem.textContent = `${item.title}: ${item.dueDate}`;
+        taskItem.dataset.taskTitle = item.title;
 
         tasksList.append(taskItem);
     });
+
+    taskContainer.addEventListener("click", (e) => {
+        const clickedItem = e.target.dataset.taskTitle; 
+
+        if (!clickedItem) {return;}
+
+        displayTodo(clickedItem, arr);
+        }
+    )
 
     taskContainer.append(tasksList);
 }
@@ -66,6 +76,9 @@ function createProjectList(arr) {
 
         projectList.append(projectItem);
     });
+
+    projectContainer.addEventListener("click", () =>
+        console.log("Clicked"));
 
     projectContainer.append(projectList);
 }
