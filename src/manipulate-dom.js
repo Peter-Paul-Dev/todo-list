@@ -3,7 +3,8 @@ import { findMatch } from "./todo-logic.js";
 const displaySection = document.querySelector(".todo-display");
 
 function displayTodo(targetTitle, arr) {
-    displaySection.classList.add(".todo-display");
+    displaySection.className = "";
+    displaySection.classList.add("todo-display");
     displaySection.textContent = "";
 
     const targetTodo = findMatch(targetTitle, arr);
@@ -39,6 +40,30 @@ function displayTodo(targetTitle, arr) {
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
 }
 
+function displayTodoInProjects (targetTitle, arr) {
+    displaySection.className = "";
+    displaySection.classList.add("projects-display");
+    displaySection.textContent = "";
+
+    const targetProject = findMatch(targetTitle, arr);
+    
+    targetProject.forEach(todo => {
+        const todoContainer  = document.createElement("div");
+        todoContainer.classList.add("todo-info");
+        displaySection.append(todoContainer);
+
+        const titleText = document.createElement("h1");
+        titleText.classList.add("title");
+        titleText.textContent = todo.title;
+
+        const dueDateText = document.createElement("p");
+        dueDateText.classList.add("due-date");
+        dueDateText.textContent = todo.dueDate;
+
+        todoContainer.append(titleText, dueDateText);
+    })
+}
+
 function createTaskList(arr) {
     const taskContainer = document.querySelector(".tasks");
 
@@ -53,11 +78,11 @@ function createTaskList(arr) {
     });
 
     taskContainer.addEventListener("click", (e) => {
-        const clickedItem = e.target.dataset.taskTitle; 
+        const clickedTask = e.target.dataset.taskTitle; 
 
-        if (!clickedItem) {return;}
+        if (!clickedTask) {return;}
 
-        displayTodo(clickedItem, arr);
+        displayTodo(clickedTask, arr);
         }
     )
 
@@ -65,7 +90,7 @@ function createTaskList(arr) {
 }
 
 function createProjectList(arr) {
-    const allProjectsExceptAllTodos = arr.splice(1);
+    const allProjectsExceptAllTodos = arr.slice(1);
 
     const projectContainer = document.querySelector(".projects");
 
@@ -74,14 +99,20 @@ function createProjectList(arr) {
     allProjectsExceptAllTodos.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
+        projectItem.dataset.projectTitle = item.title;
 
         projectList.append(projectItem);
-    });
+    }); 
 
-    projectContainer.addEventListener("click", () =>
-        console.log("Clicked"));
+    projectContainer.addEventListener("click", (e) => {
+        const clickedProject = e.target.dataset.projectTitle;
+        console.log(clickedProject);
+
+        if (!clickedProject) {return;}
+
+        displayTodoInProjects(clickedProject, arr);
+    })
 
     projectContainer.append(projectList);
 }
-
 export {displaySection, displayTodo, createTaskList, createProjectList};
