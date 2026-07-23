@@ -1,17 +1,26 @@
 import { findMatch } from "./todo-logic.js";
 
-const displaySection = document.querySelector(".todo-display");
+const container = document.querySelector(".container");
+
+const todoDisplaySection = document.createElement("div");
+todoDisplaySection.classList.add("todo-display");
+
+const projectDisplaySection = document.createElement("div");
+projectDisplaySection.classList.add("projects-display");
 
 function displayTodo(targetTitle, arr) {
-    displaySection.className = "";
-    displaySection.classList.add("todo-display");
-    displaySection.textContent = "";
+    projectDisplaySection.textContent = "";
+    projectDisplaySection.remove();
+    todoDisplaySection.remove();
+
+    todoDisplaySection.textContent = "";
+    container.append(todoDisplaySection);
 
     const targetTodo = findMatch(targetTitle, arr);
 
     const todoContainer  = document.createElement("div");
     todoContainer.classList.add("todo-info");
-    displaySection.append(todoContainer);
+    todoDisplaySection.append(todoContainer);
 
     const titleText = document.createElement("h1");
     titleText.classList.add("title");
@@ -38,20 +47,25 @@ function displayTodo(targetTitle, arr) {
     notesText.textContent = `Notes: ${targetTodo.notes}`;
     
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
+    todoDisplaySection.append(todoContainer);
 }
 
-function displayTodoInProjects (targetTitle, arr) {
-    displaySection.className = "";
-    displaySection.classList.add("projects-display");
-    displaySection.textContent = "";
+let outsideTargetProject = [];
 
-    const targetProject = findMatch(targetTitle, arr);
+function displayTodoInProjects (targetTitle, arr) {
+    todoDisplaySection.remove();
+    projectDisplaySection.remove()
+
+    projectDisplaySection.textContent = "";
+    container.append(projectDisplaySection);
+
+    const insideTargetProject = findMatch(targetTitle, arr);
     
-    targetProject.forEach(todo => {
+    insideTargetProject.forEach(todo => {
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
         todoContainer.dataset.taskTitle = todo.title;
-        displaySection.append(todoContainer);
+        projectDisplaySection.append(todoContainer);
 
         const titleText = document.createElement("h1");
         titleText.classList.add("title");
@@ -64,15 +78,17 @@ function displayTodoInProjects (targetTitle, arr) {
         todoContainer.append(titleText, dueDateText);
     })
 
-    displaySection.addEventListener("click", (e) => {
+    outsideTargetProject = insideTargetProject;
+}
+
+projectDisplaySection.addEventListener("click", (e) => {
         const clickedTask = e.target.dataset.taskTitle;
 
         if (!clickedTask) {return;}
 
-        console.log(arr);
-        displayTodo(clickedTask, targetProject);
+        console.log(clickedTask);
+        displayTodo(clickedTask, outsideTargetProject);
     })
-}
 
 function createTaskList(arr) {
     const taskContainer = document.querySelector(".tasks");
@@ -93,6 +109,7 @@ function createTaskList(arr) {
         if (!clickedTask) {return;}
 
         displayTodo(clickedTask, arr);
+        console.log(clickedTask);
         }
     )
 
@@ -124,4 +141,4 @@ function createProjectList(arr) {
 
     projectContainer.append(projectList);
 }
-export {displaySection, displayTodo, createTaskList, createProjectList};
+export {todoDisplaySection, displayTodo, createTaskList, createProjectList};
