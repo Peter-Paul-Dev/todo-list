@@ -80,3 +80,7 @@ div {
     gap: 0.5rem;
     padding: 0.5rem;
 }
+
+.complete {
+    text-decoration: line-through;
+}

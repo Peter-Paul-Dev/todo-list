@@ -45,8 +45,19 @@ function displayTodo(targetTitle, arr) {
     const notesText = document.createElement("p");
     notesText.classList.add("notes");
     notesText.textContent = `Notes: ${targetTodo.notes}`;
+
+    const markAsDoneButton = document.createElement("button");
+    markAsDoneButton.textContent = "Mark as done";
+    markAsDoneButton.addEventListener("click", () => {
+        targetTodo.doneStatus = "Done";
+        titleText.classList.add("complete");
+        doneStatusText.textContent = `Status: ${targetTodo.doneStatus}`
+    });
+
+    const deleteTodoButton = document.createElement("button");
+    deleteTodoButton.textContent = "Delete";
     
-    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText);
+    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText, markAsDoneButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
 }
 
@@ -141,4 +152,4 @@ function createProjectList(arr) {
 
     projectContainer.append(projectList);
 }
-export {todoDisplaySection, displayTodo, createTaskList, createProjectList};
+export {todoDisplaySection, displayTodo, createTaskList, createProjectList}; 
