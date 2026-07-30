@@ -23,41 +23,41 @@ function displayTodo(targetTitle, arr) {
     todoDisplaySection.append(todoContainer);
 
     const titleText = document.createElement("h1");
-    titleText.classList.add("title");
+    titleText.classList.add("property");
     titleText.textContent = targetTodo.title; 
 
     const dueDateText = document.createElement("p");
-    dueDateText.classList.add("due-date");
+    dueDateText.classList.add("property");
     dueDateText.textContent = `Due date: ${targetTodo.dueDate}`;
 
     const descriptionText = document.createElement("p");
-    descriptionText.classList.add("description");
+    descriptionText.classList.add("property");
     descriptionText.textContent = `Description: ${targetTodo.description}`;
 
     const priorityText = document.createElement("p");
-    priorityText.classList.add("priority");
+    priorityText.classList.add("property");
     priorityText.textContent = `Priority: ${targetTodo.priority}`;
 
-    const doneStatusText = document.createElement("p");
-    doneStatusText.classList.add("done-status");
-    doneStatusText.textContent = `Status: ${targetTodo.doneStatus}`; 
-
     const notesText = document.createElement("p");
-    notesText.classList.add("notes");
+    notesText.classList.add("property");
     notesText.textContent = `Notes: ${targetTodo.notes}`;
 
     const markAsDoneButton = document.createElement("button");
     markAsDoneButton.textContent = "Mark as done";
     markAsDoneButton.addEventListener("click", () => {
+        const properties = document.querySelectorAll(".property");
+        properties.forEach(property => {
+            property.classList.add("complete")
+        });
+
         targetTodo.doneStatus = "Done";
-        titleText.classList.add("complete");
-        doneStatusText.textContent = `Status: ${targetTodo.doneStatus}`
     });
 
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";
+
     
-    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, doneStatusText, notesText, markAsDoneButton, deleteTodoButton);
+    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
 }
 
