@@ -35,17 +35,11 @@ div {
     font-size: 2rem;
 }
 
-.todo-and-project-list {
-    display: grid;
-    grid-row: 2/3;
-    grid-template-rows: 1fr 1fr;
-}
-
-.tasks, .projects {
+.projects {
     padding: 0.4rem;
 }
 
-.tasks ul, .projects ul {
+.projects ul {
     list-style-type: none;
 }
 

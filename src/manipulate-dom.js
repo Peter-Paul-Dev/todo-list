@@ -58,8 +58,7 @@ function displayTodo(targetTitle, arr) {
     deleteTodoButton.addEventListener("click", () => {
         allTodos.deleteTodo(targetTitle);
         todoContainer.textContent = "";
-        createTaskList(arr);
-    })
+    });
     
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
@@ -105,41 +104,12 @@ projectDisplaySection.addEventListener("click", (e) => {
         displayTodo(clickedTask, outsideTargetProject);
     })
 
-function createTaskList(arr) {
-    const taskContainer = document.querySelector(".tasks");
-    taskContainer.textContent = "";
-
-    const tasksList = document.createElement("ul");
-
-    arr.forEach(item => {
-        const taskItem = document.createElement("li");
-        taskItem.textContent = `${item.title}: ${item.dueDate}`;
-        taskItem.dataset.taskTitle = item.title;
-
-        tasksList.append(taskItem);
-    });
-
-    taskContainer.addEventListener("click", (e) => {
-        const clickedTask = e.target.dataset.taskTitle; 
-
-        if (!clickedTask) {return;}
-
-        displayTodo(clickedTask, arr);
-        console.log(clickedTask);
-        }
-    )
-
-    taskContainer.append(tasksList);
-}
-
 function createProjectList(arr) {
-    const allProjectsExceptAllTodos = arr.slice(1);
-
     const projectContainer = document.querySelector(".projects");
 
     const projectList = document.createElement("ul");
 
-    allProjectsExceptAllTodos.forEach(item => {
+    arr.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
         projectItem.dataset.projectTitle = item.title;
@@ -157,4 +127,4 @@ function createProjectList(arr) {
 
     projectContainer.append(projectList);
 }
-export {todoDisplaySection, displayTodo, createTaskList, createProjectList}; 
+export {todoDisplaySection, displayTodo, createProjectList}; 

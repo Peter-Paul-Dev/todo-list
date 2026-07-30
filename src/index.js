@@ -1,6 +1,6 @@
 import "./style.css";
 import { allTodos, createTodo, findMatch, createNewProject, allProjects } from "./todo-logic.js";
-import { displaySection, displayTodo, createTaskList, createProjectList } from "./manipulate-dom.js";
+import { displaySection, displayTodo, createProjectList } from "./manipulate-dom.js";
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not urgent", "Not done", "None");
 
@@ -21,7 +21,6 @@ createNewProject("New stuff");
 
 findMatch("New stuff", allProjects).addToProject("Feed the cat");
 
-createTaskList(allTodos);
 createProjectList(allProjects);
 
 displayTodo("Feed the cat", allTodos);
