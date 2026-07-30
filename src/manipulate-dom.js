@@ -1,4 +1,4 @@
-import { findMatch } from "./todo-logic.js";
+import { allTodos, findMatch } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
@@ -55,7 +55,11 @@ function displayTodo(targetTitle, arr) {
 
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";
-
+    deleteTodoButton.addEventListener("click", () => {
+        allTodos.deleteTodo(targetTitle);
+        todoContainer.textContent = "";
+        createTaskList(arr);
+    })
     
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
@@ -103,6 +107,7 @@ projectDisplaySection.addEventListener("click", (e) => {
 
 function createTaskList(arr) {
     const taskContainer = document.querySelector(".tasks");
+    taskContainer.textContent = "";
 
     const tasksList = document.createElement("ul");
 

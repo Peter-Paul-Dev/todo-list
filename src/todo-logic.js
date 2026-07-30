@@ -17,9 +17,9 @@ function findMatch(target, arr) {
    return match;
 }
 
-allTodos.removeTodo = function(targetTitle) {
+allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
-      const todoIndex = allTodos.findIndex((item) => item == targetTodo);
+      const todoIndex = allTodos.findIndex((item) => item.title == targetTodo.title);
 
       targetTodo.removeFromParents();
       targetTodo.parentProjects = [];
@@ -66,7 +66,7 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
          const todoParentProjs = todo.parentProjects;
          
          if (todoParentProjs.includes(targetParentProj) == true) {
-           return arr.removeTodoFromProject(todo);
+           return arr.removeTodoFromProject(todo.title);
          }
       });
    }
@@ -81,7 +81,7 @@ function createNewProject(newProj) {
 
    proj.removeTodoFromProject = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, proj);
-      const todoIndex = proj.findIndex((item) => item.title == targetTodo.title);
+      const todoIndex = proj.findIndex((item) => item == targetTodo);
 
       const todoParentProjs = targetTodo.parentProjects;
       const parentProjIndex = todoParentProjs.findIndex((item) => item == proj.title);   
