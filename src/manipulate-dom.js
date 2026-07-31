@@ -127,4 +127,4 @@ function createProjectList(arr) {
 
     projectContainer.append(projectList);
 }
-export {todoDisplaySection, displayTodo, createProjectList}; 
+export {todoDisplaySection, displayTodo, displayTodoInProjects, createProjectList}; 
