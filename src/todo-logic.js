@@ -39,13 +39,13 @@ allProjects.removeProject = function(targetTitle) {
       }
 }  
 
-function createTodo(title, description, dueDate, priority, doneStatus, notes) {
+function createTodo(title, description, dueDate, priority, notes) {
    const todo = {
       title: title,
       dueDate: dueDate,
       description: description,
       priority: priority,
-      doneStatus: doneStatus,
+      isComplete: false,
       notes: notes,
       parentProjects: ["allTodos"],
    };
@@ -55,7 +55,7 @@ function createTodo(title, description, dueDate, priority, doneStatus, notes) {
    }
 
    todo.markComplete = function(newStatus) {
-      return todo.doneStatus = newStatus;
+      return todo.isComplete = newStatus;
    }
 
    todo.removeFromParents = function() {

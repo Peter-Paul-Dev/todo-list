@@ -50,7 +50,7 @@ function displayTodo(targetTitle, arr) {
             property.classList.add("complete")
         });
 
-        targetTodo.doneStatus = "Done";
+        targetTodo.isComplete = "Done";
     });
 
     const deleteTodoButton = document.createElement("button");
