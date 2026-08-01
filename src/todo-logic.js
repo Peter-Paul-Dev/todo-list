@@ -45,9 +45,9 @@ function createTodo(title, description, dueDate, priority, notes) {
       dueDate: dueDate,
       description: description,
       priority: priority,
-      isComplete: false,
       notes: notes,
       parentProjects: ["allTodos"],
+      isComplete: false,
    };
 
    todo.changePriority = function(newPrio) {

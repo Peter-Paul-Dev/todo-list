@@ -50,8 +50,15 @@ function displayTodo(targetTitle, arr) {
             property.classList.add("complete")
         });
 
-        targetTodo.isComplete = "Done";
+        targetTodo.markComplete(true);
     });
+
+    const changePriorityButton = document.createElement("button");
+    changePriorityButton.textContent = "Mark as Urgent";
+    changePriorityButton.addEventListener("click", () => {
+        targetTodo.changePriority("Urgent");
+        priorityText.textContent = `Priority: ${targetTodo.priority}`;
+    })
 
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";
@@ -60,7 +67,7 @@ function displayTodo(targetTitle, arr) {
         todoContainer.textContent = "";
     });
     
-    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, deleteTodoButton);
+    todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, changePriorityButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
 }
 
