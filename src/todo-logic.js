@@ -60,7 +60,7 @@ function createTodo(title, description, dueDate, priority, notes) {
       }
    }
 
-   todo.changeStatus = function(newStatus) {
+   todo.changeCompleteStatus = function(newStatus) {
       return todo.isComplete = newStatus;
    }
 

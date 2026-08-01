@@ -25,3 +25,5 @@ displayTodoInProjects("All Tasks", allProjects);
 console.log(allProjects);
 console.log(allTodos);
 console.log(newArr);
+
+myTask.changeCompleteStatus(true);

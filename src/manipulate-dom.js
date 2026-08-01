@@ -11,7 +11,6 @@ projectDisplaySection.classList.add("projects-display");
 function displayTodo(targetTitle, arr) {
     projectDisplaySection.textContent = "";
     projectDisplaySection.remove();
-    todoDisplaySection.remove();
 
     todoDisplaySection.textContent = "";
     container.append(todoDisplaySection);
@@ -51,7 +50,7 @@ function displayTodo(targetTitle, arr) {
             property.classList.add("complete")
         });
 
-            targetTodo.changeStatus(true);
+            targetTodo.changeCompleteStatus(true);
             setMarkAsDoneButtonText();
         }
 
@@ -60,7 +59,7 @@ function displayTodo(targetTitle, arr) {
             property.classList.remove("complete")
         });
 
-            targetTodo.changeStatus(false);
+            targetTodo.changeCompleteStatus(false);
             setMarkAsDoneButtonText();
         }
     });
@@ -102,6 +101,16 @@ function displayTodo(targetTitle, arr) {
         todoContainer.textContent = "";
     });
     
+    function checkIfTaskIsAlreadyComplete (obj) {
+        if (obj.isComplete == true) {
+        const properties = document.querySelectorAll(".property");
+        properties.forEach((property) => {
+            property.classList.add("complete");
+         })
+        }
+    }
+
+    checkIfTaskIsAlreadyComplete(targetTodo);
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, changePriorityButton, deleteTodoButton);
     todoDisplaySection.append(todoContainer);
 }
