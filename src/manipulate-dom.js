@@ -54,11 +54,23 @@ function displayTodo(targetTitle, arr) {
     });
 
     const changePriorityButton = document.createElement("button");
-    changePriorityButton.textContent = "Mark as Urgent";
     changePriorityButton.addEventListener("click", () => {
-        targetTodo.changePriority("Urgent");
+        targetTodo.changePriority();
         priorityText.textContent = `Priority: ${targetTodo.priority}`;
+
+        setChangePriorityButtonText();
     })
+
+    function setChangePriorityButtonText () {
+        if (targetTodo.priority == "Not urgent") {
+        changePriorityButton.textContent = "Mark as 'Urgent'";
+        } 
+        else {
+        changePriorityButton.textContent = "Mark as 'Not Urgent'";
+        }
+    }
+
+    setChangePriorityButtonText();
 
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";

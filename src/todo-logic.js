@@ -50,8 +50,14 @@ function createTodo(title, description, dueDate, priority, notes) {
       isComplete: false,
    };
 
-   todo.changePriority = function(newPrio) {
-      return todo.priority = newPrio;
+   todo.changePriority = function() {
+      if (todo.priority == "Not urgent") {
+         return todo.priority = "Urgent"
+      } 
+      
+      else if (todo.priority == "Urgent") {
+         return todo.priority = "Not urgent"
+      }
    }
 
    todo.markComplete = function(newStatus) {
