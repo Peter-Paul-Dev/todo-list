@@ -4,8 +4,6 @@ import { displaySection, displayTodo, displayTodoInProjects, createProjectList }
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not urgent", "None");
 
-myTask.changePriority("Urgent");
-
 const newArr = createNewProject("My New Project List");
 
 const newTask = createTodo("Test stuff", "Finish testing stuff", "When I feel like it", "Not urgent", "None");

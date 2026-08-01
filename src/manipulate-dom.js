@@ -43,15 +43,38 @@ function displayTodo(targetTitle, arr) {
     notesText.textContent = `Notes: ${targetTodo.notes}`;
 
     const markAsDoneButton = document.createElement("button");
-    markAsDoneButton.textContent = "Mark as done";
     markAsDoneButton.addEventListener("click", () => {
         const properties = document.querySelectorAll(".property");
-        properties.forEach(property => {
+        
+        if (targetTodo.isComplete == false) {
+            properties.forEach(property => {
             property.classList.add("complete")
         });
 
-        targetTodo.markComplete(true);
+            targetTodo.changeStatus(true);
+            setMarkAsDoneButtonText();
+        }
+
+        else {
+            properties.forEach(property => {
+            property.classList.remove("complete")
+        });
+
+            targetTodo.changeStatus(false);
+            setMarkAsDoneButtonText();
+        }
     });
+
+    function setMarkAsDoneButtonText () {
+        if (targetTodo.isComplete == false) {
+        markAsDoneButton.textContent = "Mark as 'Done'";
+        } 
+        else {
+        markAsDoneButton.textContent = "Mark as 'Not Done'";
+        }
+    }
+
+    setMarkAsDoneButtonText()
 
     const changePriorityButton = document.createElement("button");
     changePriorityButton.addEventListener("click", () => {
