@@ -110,8 +110,8 @@ function displayTodo(targetTitle, arr) {
         }
     }
 
-    checkIfTaskIsAlreadyComplete(targetTodo);
     todoContainer.append(titleText, dueDateText, descriptionText, priorityText, notesText, markAsDoneButton, changePriorityButton, deleteTodoButton);
+    checkIfTaskIsAlreadyComplete(targetTodo);
     todoDisplaySection.append(todoContainer);
 }
 
