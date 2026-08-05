@@ -133,26 +133,84 @@ function displayTodoInProjects (targetTitle, arr) {
         projectDisplaySection.append(todoContainer);
 
         const titleText = document.createElement("h1");
-        titleText.classList.add("title");
+        titleText.classList.add("property");
         titleText.textContent = todo.title;
 
         const dueDateText = document.createElement("p");
-        dueDateText.classList.add("due-date");
+        dueDateText.classList.add("property");
         dueDateText.textContent = todo.dueDate;
 
-        todoContainer.append(titleText, dueDateText);
+        const markAsDoneButton = document.createElement("button");
+        
+        if (todo.isComplete == true) {
+            markAsDoneButton.textContent = "Mark as Not Done";
+        } 
+        
+        else {
+            markAsDoneButton.textContent = "Mark as Done";
+        }
+        markAsDoneButton.classList.add("mark-as-done");
+
+        function checkIfTaskIsAlreadyComplete (obj) {
+            if (obj.isComplete == true) {
+            const properties = document.querySelectorAll(".property");
+            properties.forEach((property) => {
+                property.classList.add("complete");
+                })
+            }
+        }
+
+        todoContainer.append(titleText, dueDateText, markAsDoneButton);
+        if (todo.isComplete == true) {
+            const properties = document.querySelectorAll(".property");
+            properties.forEach((property) => {
+                property.classList.add("complete");
+            })
+        }
     })
 
     outsideTargetProject = insideTargetProject;
 }
 
 projectDisplaySection.addEventListener("click", (e) => {
-        const clickedTask = e.target.dataset.taskTitle;
+        if (e.target.matches(".todo-info")) {
+            const clickedTask = e.target.dataset.taskTitle;
 
-        if (!clickedTask) {return;}
+            if (!clickedTask) {return;}
 
-        console.log(clickedTask);
-        displayTodo(clickedTask, outsideTargetProject);
+            console.log(clickedTask);
+            displayTodo(clickedTask, outsideTargetProject);
+        }
+
+        else if (e.target.matches(".mark-as-done")) {
+            const clickedButton = e.target.closest("button");
+            const infoBox = clickedButton.parentElement;
+            const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject);
+
+            console.log(clickedButton);
+            console.log(clickedTask);
+            console.log(infoBox);
+
+            Array.from(infoBox.children).forEach(child => {
+                const properties = infoBox.querySelectorAll(".property");
+
+                if (clickedTask.isComplete == false) {
+                    clickedTask.changeCompleteStatus(true);
+                    properties.forEach(property => {
+                        property.classList.add("complete");
+                    })
+                    clickedButton.textContent = "Mark as Not Done"
+                } 
+                
+                else if (clickedTask.isComplete == true) {
+                    clickedTask.changeCompleteStatus(false);
+                    properties.forEach(property => {
+                        property.classList.remove("complete");
+                    })
+                    clickedButton.textContent = "Mark as Done";
+                }
+            })
+        }
     })
 
 function createProjectList(arr) {
