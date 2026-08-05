@@ -160,7 +160,12 @@ function displayTodoInProjects (targetTitle, arr) {
             }
         }
 
-        todoContainer.append(titleText, dueDateText, markAsDoneButton);
+        const deleteTodoButton = document.createElement("button");
+        deleteTodoButton.classList.add("delete");
+        deleteTodoButton.textContent = "Delete";
+
+        todoContainer.append(titleText, dueDateText, markAsDoneButton, deleteTodoButton);
+
         if (todo.isComplete == true) {
             const properties = document.querySelectorAll(".property");
             properties.forEach((property) => {
@@ -210,6 +215,15 @@ projectDisplaySection.addEventListener("click", (e) => {
                     clickedButton.textContent = "Mark as Done";
                 }
             })
+        }
+
+        else if (e.target.matches(".delete")) {
+            const clickedButton = e.target.closest("button");
+            const infoBox = clickedButton.parentElement;
+            const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject).title;
+
+            allTodos.deleteTodo(clickedTask);
+            infoBox.remove();
         }
     })
 
