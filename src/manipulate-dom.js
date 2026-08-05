@@ -66,10 +66,10 @@ function displayTodo(targetTitle, arr) {
 
     function setMarkAsDoneButtonText () {
         if (targetTodo.isComplete == false) {
-        markAsDoneButton.textContent = "Mark as 'Done'";
+            markAsDoneButton.textContent = "Mark as 'Done'";
         } 
         else {
-        markAsDoneButton.textContent = "Mark as 'Not Done'";
+            markAsDoneButton.textContent = "Mark as 'Not Done'";
         }
     }
 
@@ -85,10 +85,10 @@ function displayTodo(targetTitle, arr) {
 
     function setChangePriorityButtonText () {
         if (targetTodo.priority == "Not urgent") {
-        changePriorityButton.textContent = "Mark as 'Urgent'";
+            changePriorityButton.textContent = "Mark as 'Urgent'";
         } 
         else {
-        changePriorityButton.textContent = "Mark as 'Not Urgent'";
+            changePriorityButton.textContent = "Mark as 'Not Urgent'";
         }
     }
 
@@ -103,10 +103,10 @@ function displayTodo(targetTitle, arr) {
     
     function checkIfTaskIsAlreadyComplete (obj) {
         if (obj.isComplete == true) {
-        const properties = document.querySelectorAll(".property");
-        properties.forEach((property) => {
-            property.classList.add("complete");
-         })
+            const properties = document.querySelectorAll(".property");
+            properties.forEach((property) => {
+                property.classList.add("complete");
+            })
         }
     }
 
@@ -149,6 +149,7 @@ function displayTodoInProjects (targetTitle, arr) {
         else {
             markAsDoneButton.textContent = "Mark as Done";
         }
+
         markAsDoneButton.classList.add("mark-as-done");
 
         function checkIfTaskIsAlreadyComplete (obj) {
@@ -188,37 +189,30 @@ projectDisplaySection.addEventListener("click", (e) => {
         }
 
         else if (e.target.matches(".mark-as-done")) {
-            const clickedButton = e.target.closest("button");
+            const clickedButton = e.target;
             const infoBox = clickedButton.parentElement;
             const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject);
+            
+            const displayedProperties = Array.from(infoBox.children).filter(item => item.classList.contains("property"));
+            console.log(displayedProperties);
 
-            console.log(clickedButton);
-            console.log(clickedTask);
-            console.log(infoBox);
-
-            Array.from(infoBox.children).forEach(child => {
-                const properties = infoBox.querySelectorAll(".property");
-
+            displayedProperties.forEach(property => {
                 if (clickedTask.isComplete == false) {
                     clickedTask.changeCompleteStatus(true);
-                    properties.forEach(property => {
-                        property.classList.add("complete");
-                    })
+                    property.classList.add("complete");
                     clickedButton.textContent = "Mark as Not Done"
                 } 
                 
                 else if (clickedTask.isComplete == true) {
                     clickedTask.changeCompleteStatus(false);
-                    properties.forEach(property => {
-                        property.classList.remove("complete");
-                    })
+                    property.classList.remove("complete");
                     clickedButton.textContent = "Mark as Done";
                 }
             })
         }
 
         else if (e.target.matches(".delete")) {
-            const clickedButton = e.target.closest("button");
+            const clickedButton = e.target;
             const infoBox = clickedButton.parentElement;
             const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject).title;
 
@@ -250,4 +244,5 @@ function createProjectList(arr) {
 
     projectContainer.append(projectList);
 }
+
 export {todoDisplaySection, displayTodo, displayTodoInProjects, createProjectList}; 
