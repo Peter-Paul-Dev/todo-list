@@ -34,7 +34,7 @@ function displayTodo(targetTitle, arr) {
     descriptionText.textContent = `Description: ${targetTodo.description}`;
 
     const priorityText = document.createElement("p");
-    priorityText.classList.add("property");
+    priorityText.classList.add("property"); 
     priorityText.textContent = `Priority: ${targetTodo.priority}`;
 
     const notesText = document.createElement("p");
@@ -196,19 +196,17 @@ projectDisplaySection.addEventListener("click", (e) => {
             const displayedProperties = Array.from(infoBox.children).filter(item => item.classList.contains("property"));
             console.log(displayedProperties);
 
-            displayedProperties.forEach(property => {
-                if (clickedTask.isComplete == false) {
+            if (clickedTask.isComplete == false) {
                     clickedTask.changeCompleteStatus(true);
-                    property.classList.add("complete");
-                    clickedButton.textContent = "Mark as Not Done"
-                } 
+                    displayedProperties.forEach((property) => property.classList.add("complete"));
+                    setMarkAsDoneButtonText(clickedTask, clickedButton);
+            } 
                 
-                else if (clickedTask.isComplete == true) {
+            else if (clickedTask.isComplete == true) {
                     clickedTask.changeCompleteStatus(false);
-                    property.classList.remove("complete");
-                    clickedButton.textContent = "Mark as Done";
-                }
-            })
+                    displayedProperties.forEach((property) => property.classList.remove("complete"));
+                    setMarkAsDoneButtonText(clickedTask, clickedButton);
+            }
         }
 
         else if (e.target.matches(".delete")) {
@@ -218,6 +216,16 @@ projectDisplaySection.addEventListener("click", (e) => {
 
             allTodos.deleteTodo(clickedTask);
             infoBox.remove();
+        }
+
+        function setMarkAsDoneButtonText(obj, btn) {
+            if (obj.isComplete == false) {
+                btn.textContent = "Mark as Done";
+            }
+
+            else if (obj.isComplete == true) {
+                btn.textContent = "Mark as Not Done";
+            }
         }
     })
 
