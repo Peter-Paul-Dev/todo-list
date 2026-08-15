@@ -8,6 +8,10 @@ todoDisplaySection.classList.add("todo-display");
 const projectDisplaySection = document.createElement("div");
 projectDisplaySection.classList.add("projects-display");
 
+const projectContainer = document.querySelector(".projects");
+
+const listContainer = document.querySelector(".list-container");
+
 function displayTodo(targetTitle, arr) {
     projectDisplaySection.textContent = "";
     projectDisplaySection.remove();
@@ -230,7 +234,7 @@ projectDisplaySection.addEventListener("click", (e) => {
     })
 
 function createProjectList(arr) {
-    const projectContainer = document.querySelector(".projects");
+    listContainer.textContent = "";
 
     const projectList = document.createElement("ul");
 
@@ -250,7 +254,7 @@ function createProjectList(arr) {
         displayTodoInProjects(clickedProject, arr);
     })
 
-    projectContainer.append(projectList);
+    listContainer.append(projectList);
 }
 
 export {todoDisplaySection, displayTodo, displayTodoInProjects, createProjectList}; 

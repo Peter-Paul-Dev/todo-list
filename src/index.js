@@ -43,3 +43,20 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
     const addedTask = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
     displayTodoInProjects("All Tasks", allProjects);
 });
+
+document.querySelector("#add-new-project").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    const userInput = {};
+
+    for (const key of formData.keys()) {
+        if (formData.get(key).toString().length > 0) {
+            userInput[key] = formData.get(key).toString();
+        }
+    }
+
+    console.log(userInput);
+    const addedProj = createNewProject(userInput.title);
+    createProjectList(allProjects);
+})
