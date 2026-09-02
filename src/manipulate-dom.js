@@ -239,7 +239,7 @@ function createProjectList(arr) {
     arr.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
-        projectItem.classList.add("project");
+        projectItem.classList.add("project-array");
         projectItem.dataset.projectTitle = item.title;
 
         if (item.title == "All Tasks") {
@@ -262,7 +262,7 @@ function createProjectList(arr) {
 }
 
 listContainer.addEventListener("click", (e) => {
-        if (e.target.matches(".project")) {
+        if (e.target.matches(".project-array")) {
             const clickedProject = e.target.dataset.projectTitle;
 
             if (!clickedProject) {return;}

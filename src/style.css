@@ -60,6 +60,10 @@ div {
     font-size: 2rem;
 }
 
+.project-array {
+    display: flex;
+    justify-content: space-between;
+}
 .new-object {
     height: 2.5rem;
     width: 5rem;
