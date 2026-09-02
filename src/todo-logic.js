@@ -82,6 +82,10 @@ function createTodo(title, description, dueDate, priority, notes) {
 }
 
 function createNewProject(newProj) {
+   if (allProjects.some(elem => elem.title == newProj)) {
+      return;
+   } 
+
    const proj = [];
    proj.title = newProj;
 
