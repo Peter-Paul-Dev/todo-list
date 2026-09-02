@@ -1,4 +1,4 @@
-import { allTodos, findMatch } from "./todo-logic.js";
+import { allProjects, allTodos, findMatch } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
@@ -239,20 +239,45 @@ function createProjectList(arr) {
     arr.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
+        projectItem.classList.add("project");
         projectItem.dataset.projectTitle = item.title;
 
-        projectList.append(projectItem);
+        if (item.title == "All Tasks") {
+            projectList.append(projectItem);
+        } 
+        
+        else {
+            const deleteProjectButton = document.createElement("button");
+            deleteProjectButton.textContent = "Delete";
+            deleteProjectButton.classList.add("delete-project");
+            deleteProjectButton.dataset.projectTitle = item.title;
+
+            projectItem.append(deleteProjectButton);
+
+            projectList.append(projectItem);
+        }
     }); 
-
-    listContainer.addEventListener("click", (e) => {
-        const clickedProject = e.target.dataset.projectTitle;
-
-        if (!clickedProject) {return;}
-
-        displayTodoInProjects(clickedProject, arr);
-    })
 
     listContainer.append(projectList);
 }
+
+listContainer.addEventListener("click", (e) => {
+        if (e.target.matches(".project")) {
+            const clickedProject = e.target.dataset.projectTitle;
+
+            if (!clickedProject) {return;}
+
+            displayTodoInProjects(clickedProject, allProjects);
+        } 
+        
+        else if (e.target.matches(".delete-project")) {
+            const clickedProject = e.target.dataset.projectTitle;
+
+            if (!clickedProject) {return}
+
+            allProjects.removeProject(clickedProject);
+            createProjectList(allProjects);
+        }
+    })
 
 export {todoDisplaySection, displayTodo, displayTodoInProjects, createProjectList}; 

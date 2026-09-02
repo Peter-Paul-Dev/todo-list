@@ -20,6 +20,7 @@ function findMatch(target, arr) {
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
       const todoIndex = allTodos.findIndex((item) => item.title == targetTodo.title);
+      console.log(todoIndex);
 
       targetTodo.removeFromParents();
       targetTodo.parentProjects = [];
@@ -28,9 +29,10 @@ allTodos.deleteTodo = function(targetTitle) {
 
 allProjects.removeProject = function(targetTitle) {
       const targetProject = findMatch(targetTitle, allProjects);
-      const projIndex = allProjects.findIndex((arr) => arr.title == targetProject);
+      const projIndex = allProjects.findIndex((arr) => arr.title == targetProject.title);
+      console.log(projIndex);
 
-      if (targetProject == "All Tasks") {
+      if (targetProject.title == "All Tasks") {
          console.warn("You can't delete that")
       } 
       
