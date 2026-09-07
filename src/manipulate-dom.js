@@ -49,7 +49,7 @@ function displayTodo(targetTitle, arr) {
         
         if (targetTodo.isComplete == false) {
             properties.forEach(property => {
-            property.classList.add("complete")
+            property.classList.add("complete");
         });
 
             targetTodo.changeCompleteStatus(true);
@@ -121,7 +121,7 @@ let outsideTargetProject = [];
 
 function displayTodoInProjects (targetTitle, arr) {
     todoDisplaySection.remove();
-    projectDisplaySection.remove()
+    projectDisplaySection.remove();
 
     projectDisplaySection.textContent = "";
     container.append(projectDisplaySection);
@@ -184,7 +184,7 @@ projectDisplaySection.addEventListener("click", (e) => {
         if (e.target.matches(".todo-info")) {
             const clickedTask = e.target.dataset.taskTitle;
 
-            if (!clickedTask) {return;}
+            if (!clickedTask) {return};
 
             console.log(clickedTask);
             displayTodo(clickedTask, outsideTargetProject);
@@ -247,12 +247,21 @@ function createProjectList(arr) {
         } 
         
         else {
+            const buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("button-container");
+
+            const addTaskButton = document.createElement("button");
+            addTaskButton.textContent = "Add Task";
+            addTaskButton.classList.add("add-task");
+
             const deleteProjectButton = document.createElement("button");
             deleteProjectButton.textContent = "Delete";
             deleteProjectButton.classList.add("delete-project");
             deleteProjectButton.dataset.projectTitle = item.title;
 
-            projectItem.append(deleteProjectButton);
+            buttonContainer.append(addTaskButton, deleteProjectButton);
+
+            projectItem.append(buttonContainer);
 
             projectList.append(projectItem);
         }
@@ -265,7 +274,7 @@ listContainer.addEventListener("click", (e) => {
         if (e.target.matches(".project-array")) {
             const clickedProject = e.target.dataset.projectTitle;
 
-            if (!clickedProject) {return;}
+            if (!clickedProject) {return};
 
             displayTodoInProjects(clickedProject, allProjects);
         } 
@@ -273,7 +282,7 @@ listContainer.addEventListener("click", (e) => {
         else if (e.target.matches(".delete-project")) {
             const clickedProject = e.target.dataset.projectTitle;
 
-            if (!clickedProject) {return}
+            if (!clickedProject) {return};
 
             allProjects.removeProject(clickedProject);
             createProjectList(allProjects);
