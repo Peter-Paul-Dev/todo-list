@@ -169,3 +169,7 @@ input[type=text] {
 .radio-field div {
     font-weight: normal;
 }
+
+#checkbox-field label {
+    font-weight: 400;
+}

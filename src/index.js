@@ -1,6 +1,6 @@
 import "./style.css";
 import { allTodos, createTodo, findMatch, createNewProject, allProjects } from "./todo-logic.js";
-import { displaySection, displayTodo, displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
+import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
 const myTask = createTodo("Finish Project", "Finish the project I'm working on", "Whenever", "Not Urgent", "None");
 
@@ -60,3 +60,34 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
     const addedProj = createNewProject(userInput.title);
     createProjectList(allProjects);
 })
+
+const checkBoxContainer = document.getElementById("checkbox-field");
+
+const optionsData = [];
+
+allProjects.slice(1).forEach(proj => {
+    const option = {
+        name: "project-option",
+        value: proj.title,
+    }
+
+    optionsData.push(option);
+})
+
+optionsData.forEach(option => {
+    const inputContainer = document.createElement("div");
+
+    const optionLabel = document.createElement("label");
+    optionLabel.htmlFor = option.value;
+    optionLabel.textContent = option.value;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = option.value;
+
+    inputContainer.append(optionLabel, checkbox);
+
+    checkBoxContainer.append(inputContainer);
+})
+
+console.log(optionsData);
