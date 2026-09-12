@@ -22,45 +22,6 @@ createProjectList(allProjects);
 
 displayTodoInProjects("All Tasks", allProjects);
 
-console.log(allProjects);
-console.log(allTodos);
-console.log(newArr);
-
-
-document.querySelector("#add-new-task").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    const userInputs = {};
-
-    for (const key of formData.keys()) {
-        if (formData.get(key).toString().length > 0) {
-            userInputs[key] = formData.get(key).toString();
-        }
-    }
-
-    console.log(userInputs);
-    const addedTask = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
-    displayTodoInProjects("All Tasks", allProjects);
-});
-
-document.querySelector("#add-new-project").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    const userInput = {};
-
-    for (const key of formData.keys()) {
-        if (formData.get(key).toString().length > 0) {
-            userInput[key] = formData.get(key).toString();
-        }
-    }
-
-    console.log(userInput);
-    const addedProj = createNewProject(userInput.title);
-    createProjectList(allProjects);
-})
-
 const checkBoxContainer = document.getElementById("checkbox-field");
 
 const optionsData = [];
@@ -83,11 +44,57 @@ optionsData.forEach(option => {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.name = "parentProjects";
     checkbox.id = option.value;
+    checkbox.value = option.value;
 
     inputContainer.append(optionLabel, checkbox);
 
     checkBoxContainer.append(inputContainer);
 })
 
+document.querySelector("#add-new-task").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    const userInputs = {};
+
+    for (const key of formData.keys()) {
+        if (formData.get(key).toString().length > 0) {
+            userInputs[key] = formData.get(key).toString();
+        }
+    }
+
+    const newTodo = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
+    newTodo.parentProjects = newTodo.parentProjects.concat(userInputs.parentProjects);
+    
+    newTodo.parentProjects.slice(1).forEach((proj) => {
+        const matchedProj = findMatch(proj, allProjects);
+
+        matchedProj.push(newTodo);
+    })
+
+    displayTodoInProjects("All Tasks", allProjects);
+});
+
+document.querySelector("#add-new-project").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    const userInput = {};
+
+    for (const key of formData.keys()) {
+        if (formData.get(key).toString().length > 0) {
+            userInput[key] = formData.get(key).toString();
+        }
+    }
+
+    console.log(userInput);
+    createNewProject(userInput.title);
+    createProjectList(allProjects);
+})
+
+console.log(allProjects);
+console.log(allTodos);
+console.log(newArr);
 console.log(optionsData);
