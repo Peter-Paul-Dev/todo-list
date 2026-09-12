@@ -57,20 +57,17 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
     e.preventDefault();
     const formData = new FormData(this);
 
-    const userInputs = {};
-
-    for (const key of formData.keys()) {
-        if (formData.get(key).toString().length > 0) {
-            userInputs[key] = formData.get(key).toString();
-        }
-    }
-
-    console.log(userInputs);
+    const userInputs = {
+        title: formData.get("title"),
+        description: formData.get("description"),
+        dueDate: formData.get("dueDate"),
+        priority: formData.get("priority"),
+        notes: formData.get("notes"),
+        parentProjects: formData.getAll("parentProjects"),
+    };
 
     const newTodo = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
     newTodo.parentProjects = newTodo.parentProjects.concat(userInputs.parentProjects);
-
-    console.log(newTodo);
     
     newTodo.parentProjects.slice(1).forEach((proj) => {
         const matchedProj = findMatch(proj, allProjects);
