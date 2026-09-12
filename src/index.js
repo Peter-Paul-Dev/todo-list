@@ -65,8 +65,12 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
         }
     }
 
+    console.log(userInputs);
+
     const newTodo = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
     newTodo.parentProjects = newTodo.parentProjects.concat(userInputs.parentProjects);
+
+    console.log(newTodo);
     
     newTodo.parentProjects.slice(1).forEach((proj) => {
         const matchedProj = findMatch(proj, allProjects);
