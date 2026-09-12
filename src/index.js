@@ -22,36 +22,39 @@ createProjectList(allProjects);
 
 displayTodoInProjects("All Tasks", allProjects);
 
-const checkBoxContainer = document.getElementById("checkbox-field");
+document.querySelector(".new-object").addEventListener("click", () => {
+    const checkBoxContainer = document.getElementById("checkbox-field");
+    checkBoxContainer.textContent = "";
 
-const optionsData = [];
+    const optionsData = [];
 
-allProjects.slice(1).forEach(proj => {
-    const option = {
-        name: "project-option",
-        value: proj.title,
-    }
+    allProjects.slice(1).forEach(proj => {
+        const option = {
+            name: "project-option",
+            value: proj.title,
+        }
 
-    optionsData.push(option);
-})
+        optionsData.push(option);
+    })
 
-optionsData.forEach(option => {
-    const inputContainer = document.createElement("div");
+    optionsData.forEach(option => {
+        const inputContainer = document.createElement("div");
 
-    const optionLabel = document.createElement("label");
-    optionLabel.htmlFor = option.value;
-    optionLabel.textContent = option.value;
+        const optionLabel = document.createElement("label");
+        optionLabel.htmlFor = option.value;
+        optionLabel.textContent = option.value;
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "parentProjects";
-    checkbox.id = option.value;
-    checkbox.value = option.value;
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.name = "parentProjects";
+        checkbox.id = option.value;
+        checkbox.value = option.value;
 
-    inputContainer.append(optionLabel, checkbox);
+        inputContainer.append(optionLabel, checkbox);
 
-    checkBoxContainer.append(inputContainer);
-})
+        checkBoxContainer.append(inputContainer);
+    })
+});
 
 document.querySelector("#add-new-task").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -98,4 +101,3 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
 console.log(allProjects);
 console.log(allTodos);
 console.log(newArr);
-console.log(optionsData);
