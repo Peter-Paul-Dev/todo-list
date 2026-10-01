@@ -1,7 +1,14 @@
-const allTodos = [];
-allTodos.title = "All Tasks";
+function storeToLocalStorage (target) {
+   localStorage.setItem(target.title, JSON.stringify(target));
+}
 
-const allProjects = [allTodos];
+function removeFromLocalStorage(target) {
+   localStorage.removeItem(target.title, JSON.stringify(target));
+}
+
+function getFromLocalStorage(target) {
+   localStorage.getItem(target.title);
+}
 
 function findMatch(target, arr) {
     if (!arr || arr.length === 0) {
@@ -17,6 +24,14 @@ function findMatch(target, arr) {
    return match;
 }
 
+const allTodos = [];
+allTodos.title = "All Tasks";
+storeToLocalStorage(allTodos);
+
+const allProjects = [allTodos];
+allProjects.title = "All Projects";
+storeToLocalStorage(allProjects);
+
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
       const todoIndex = allTodos.findIndex((item) => item.title == targetTodo.title);
@@ -25,6 +40,7 @@ allTodos.deleteTodo = function(targetTitle) {
       targetTodo.removeFromParents();
       targetTodo.parentProjects = [];
       allTodos.splice(todoIndex, 1);
+      removeFromLocalStorage(targetTodo);
 }
 
 allProjects.removeProject = function(targetTitle) {
@@ -38,6 +54,7 @@ allProjects.removeProject = function(targetTitle) {
       
       else {
          allProjects.splice(projIndex, 1);
+         removeFromLocalStorage(targetProject);
       }
 }  
 
@@ -80,6 +97,7 @@ function createTodo(title, description, dueDate, priority, notes) {
    }
 
    allTodos.push(todo);
+   storeToLocalStorage(todo);
    return todo;
 }
 
@@ -109,7 +127,8 @@ function createNewProject(newProj) {
    }
 
    allProjects.push(proj);
+   storeToLocalStorage(proj);
    return proj;
 }   
 
-export { allTodos, allProjects, findMatch, createTodo, createNewProject };
+export { allTodos, allProjects, storeToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject };
