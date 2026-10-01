@@ -1,4 +1,4 @@
-function storeToLocalStorage (target) {
+function saveToLocalStorage (target) {
    localStorage.setItem(target.title, JSON.stringify(target));
 }
 
@@ -26,11 +26,11 @@ function findMatch(target, arr) {
 
 const allTodos = [];
 allTodos.title = "All Tasks";
-storeToLocalStorage(allTodos);
+saveToLocalStorage(allTodos);
 
 const allProjects = [allTodos];
 allProjects.title = "All Projects";
-storeToLocalStorage(allProjects);
+saveToLocalStorage(allProjects);
 
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
@@ -97,7 +97,8 @@ function createTodo(title, description, dueDate, priority, notes) {
    }
 
    allTodos.push(todo);
-   storeToLocalStorage(todo);
+   saveToLocalStorage(todo);
+   saveToLocalStorage(allTodos);
    return todo;
 }
 
@@ -127,8 +128,9 @@ function createNewProject(newProj) {
    }
 
    allProjects.push(proj);
-   storeToLocalStorage(proj);
+   saveToLocalStorage(proj);
+   saveToLocalStorage(allProjects);
    return proj;
 }   
 
-export { allTodos, allProjects, storeToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject };
+export { allTodos, allProjects, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject };

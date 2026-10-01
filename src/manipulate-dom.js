@@ -1,4 +1,4 @@
-import { allProjects, allTodos, findMatch } from "./todo-logic.js";
+import { allProjects, allTodos, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
@@ -125,6 +125,9 @@ function displayTodoInProjects (targetTitle, arr) {
 
     projectDisplaySection.textContent = "";
     container.append(projectDisplaySection);
+
+    const currentStateOfArr = getFromLocalStorage(arr);
+    console.log(currentStateOfArr);
 
     const insideTargetProject = findMatch(targetTitle, arr);
     
