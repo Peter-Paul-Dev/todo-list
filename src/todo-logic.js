@@ -100,7 +100,7 @@ function createTodo(title, description, dueDate, priority, notes) {
       });
    }
 
-   allTodos.push(todo);
+   allTodos.list.push(todo);
    saveToLocalStorage(todo);
    saveToLocalStorage(allTodos);
    return todo;
@@ -118,18 +118,18 @@ function createNewProject(newProj) {
 
    proj.removeTodoFromProject = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, proj);
-      const todoIndex = proj.findIndex((item) => item == targetTodo);
+      const todoIndex = proj.list.findIndex((item) => item == targetTodo);
 
       const todoParentProjs = targetTodo.parentProjects;
       const parentProjIndex = todoParentProjs.findIndex((item) => item == proj.title);   
 
-      proj.splice(todoIndex, 1);
+      proj.list.splice(todoIndex, 1);
       todoParentProjs.splice(parentProjIndex, 1);
    }  
 
    proj.addToProject = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
-      proj.push(targetTodo);
+      proj.list.push(targetTodo);
       targetTodo.parentProjects.push(proj.title);
    }
 

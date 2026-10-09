@@ -83,3 +83,8 @@ console.log(allTodos);
 
 const newProj = createNewProject("New Proj");
 console.log(newProj);
+
+const newTodo = createTodo("New Task");
+newProj.addToProject("New Task");
+
+newProj.removeTodoFromProject("New Task");
