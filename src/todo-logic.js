@@ -38,12 +38,12 @@ saveToLocalStorage(allProjects);
 
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
-      const todoIndex = allTodos.findIndex((item) => item.title == targetTodo.title);
+      const todoIndex = allTodos.list.findIndex((item) => item.title == targetTodo.title);
       console.log(todoIndex);
 
       targetTodo.removeFromParents();
       targetTodo.parentProjects = [];
-      allTodos.splice(todoIndex, 1);
+      allTodos.list.splice(todoIndex, 1);
       removeFromLocalStorage(targetTodo);
 }
 
@@ -88,7 +88,7 @@ function createTodo(title, description, dueDate, priority, notes) {
    }
 
    todo.removeFromParents = function() {
-      const projectsBesidesAllTodos = allProjects.slice(1);
+      const projectsBesidesAllTodos = allProjects.list.slice(1);
 
       projectsBesidesAllTodos.forEach(arr => {
          const targetParentProj = arr.title;
