@@ -10,7 +10,7 @@ document.querySelector(".new-object").addEventListener("click", () => {
 
     const optionsData = [];
 
-    allProjects.slice(1).forEach(proj => {
+    allProjects.list.slice(1).forEach(proj => {
         const option = {
             name: "project-option",
             value: proj.title,
@@ -57,7 +57,7 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
     newTodo.parentProjects.slice(1).forEach((proj) => {
         const matchedProj = findMatch(proj, allProjects);
 
-        matchedProj.push(newTodo);
+        matchedProj.list.push(newTodo);
     })
 
     displayTodoInProjects("All Tasks", allProjects);
