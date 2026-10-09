@@ -2,6 +2,8 @@ import "./style.css";
 import { allTodos, createTodo, findMatch, createNewProject, allProjects } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
+createProjectList(allProjects);
+
 document.querySelector(".new-object").addEventListener("click", () => {
     const checkBoxContainer = document.getElementById("checkbox-field");
     checkBoxContainer.textContent = "";

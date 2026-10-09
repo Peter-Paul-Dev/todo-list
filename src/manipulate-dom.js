@@ -117,7 +117,9 @@ function displayTodo(targetTitle, arr) {
     todoDisplaySection.append(todoContainer);
 }
 
-let outsideTargetProject = [];
+let outsideTargetProject = {
+    list: [],
+}
 
 function displayTodoInProjects (targetTitle, arr) {
     todoDisplaySection.remove();
@@ -129,7 +131,7 @@ function displayTodoInProjects (targetTitle, arr) {
     const currentStateOfArr = getFromLocalStorage(arr);
     console.log(currentStateOfArr);
 
-    const insideTargetProject = findMatch(targetTitle, arr);
+    const insideTargetProject = findMatch(targetTitle, arr).list;
     
     insideTargetProject.forEach(todo => {
         const todoContainer  = document.createElement("div");
@@ -180,7 +182,7 @@ function displayTodoInProjects (targetTitle, arr) {
         }
     })
 
-    outsideTargetProject = insideTargetProject;
+    outsideTargetProject.list = insideTargetProject;
 }
 
 projectDisplaySection.addEventListener("click", (e) => {
@@ -237,9 +239,11 @@ projectDisplaySection.addEventListener("click", (e) => {
 function createProjectList(arr) {
     listContainer.textContent = "";
 
+    const list = arr.list;
+
     const projectList = document.createElement("ul");
 
-    arr.forEach(item => {
+    list.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
         projectItem.classList.add("project-array");
