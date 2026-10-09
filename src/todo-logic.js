@@ -47,9 +47,9 @@ allTodos.deleteTodo = function(targetTitle) {
       removeFromLocalStorage(targetTodo);
 }
 
-allProjects.removeProject = function(targetTitle) {
+allProjects.deleteProject = function(targetTitle) {
       const targetProject = findMatch(targetTitle, allProjects);
-      const projIndex = allProjects.findIndex((arr) => arr.title == targetProject.title);
+      const projIndex = allProjects.list.findIndex((arr) => arr.title == targetProject.title);
       console.log(projIndex);
 
       if (targetProject.title == "All Tasks") {
@@ -57,7 +57,7 @@ allProjects.removeProject = function(targetTitle) {
       } 
       
       else {
-         allProjects.splice(projIndex, 1);
+         allProjects.list.splice(projIndex, 1);
          removeFromLocalStorage(targetProject);
       }
 }  

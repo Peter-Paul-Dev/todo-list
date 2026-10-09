@@ -291,7 +291,7 @@ listContainer.addEventListener("click", (e) => {
 
             if (!clickedProject) {return};
 
-            allProjects.removeProject(clickedProject);
+            allProjects.deleteProject(clickedProject);
             createProjectList(allProjects);
         }
     })
