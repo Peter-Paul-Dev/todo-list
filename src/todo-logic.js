@@ -3,7 +3,7 @@ function saveToLocalStorage (target) {
 }
 
 function removeFromLocalStorage(target) {
-   localStorage.removeItem(target.title, JSON.stringify(target));
+   localStorage.removeItem(target.title);
 }
 
 function getFromLocalStorage(target) {
@@ -11,11 +11,11 @@ function getFromLocalStorage(target) {
 }
 
 function findMatch(target, arr) {
-    if (!arr || arr.length === 0) {
+    if (!arr || arr.list.length === 0) {
        console.warn(`findMatch failed: Array for "${target}" is empty or undefined.`);
    }
    
-   const match = arr.find((item) => item.title == target);
+   const match = arr.list.find((item) => item.title == target);
 
    if (!match) {
        console.warn(`findMatch failed: No object found with title "${target}".`);
@@ -24,12 +24,16 @@ function findMatch(target, arr) {
    return match;
 }
 
-const allTodos = [];
-allTodos.title = "All Tasks";
+const allTodos = {
+   list: [],
+   title: "All Tasks",
+}
 saveToLocalStorage(allTodos);
 
-const allProjects = [allTodos];
-allProjects.title = "All Projects";
+const allProjects = {
+   list: [allTodos],
+   title: "All Projects",
+}
 saveToLocalStorage(allProjects);
 
 allTodos.deleteTodo = function(targetTitle) {
@@ -49,7 +53,7 @@ allProjects.removeProject = function(targetTitle) {
       console.log(projIndex);
 
       if (targetProject.title == "All Tasks") {
-         console.warn("You can't delete that")
+         console.warn("You can't delete that");
       } 
       
       else {
@@ -103,12 +107,14 @@ function createTodo(title, description, dueDate, priority, notes) {
 }
 
 function createNewProject(newProj) {
-   if (allProjects.some(elem => elem.title == newProj)) {
+   if (allProjects.list.some(elem => elem.title == newProj)) {
       return;
    } 
 
-   const proj = [];
-   proj.title = newProj;
+   const proj = {
+      list: [],
+      title: newProj,
+   }
 
    proj.removeTodoFromProject = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, proj);
@@ -127,7 +133,7 @@ function createNewProject(newProj) {
       targetTodo.parentProjects.push(proj.title);
    }
 
-   allProjects.push(proj);
+   allProjects.list.push(proj);
    saveToLocalStorage(proj);
    saveToLocalStorage(allProjects);
    return proj;
