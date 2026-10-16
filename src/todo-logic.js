@@ -39,55 +39,55 @@ function findMatch(target, arr) {
 //if no, write a function that overwrites the hardcoded values of empty and allTodos into the value of what's stored in localStorage
 //also find a way to reattach the appropriate methods to all objects retrieved from localStorage
 
-// let allTodos = "";
+let allTodos = "";
 
-// const hardCodedAllTodos = {
-//       title: "All Tasks",
-//       list: [],
-//    }
+const hardCodedAllTodos = {
+      title: "All Tasks",
+      list: [],
+   }
 
-// const insideLocalStorageTodos = getFromLocalStorage(hardCodedAllTodos);
+const insideLocalStorageTodos = getFromLocalStorage(hardCodedAllTodos);
 
-// if (insideLocalStorageTodos == hardCodedAllTodos) {
-//       allTodos = hardCodedAllTodos;
-//       saveToLocalStorage(allTodos);
-//    } 
+if (insideLocalStorageTodos == hardCodedAllTodos) {
+      allTodos = hardCodedAllTodos;
+      saveToLocalStorage(allTodos);
+   } 
    
-// else {
-//       allTodos = insideLocalStorageTodos;
-//       saveToLocalStorage(allTodos);
-// }
-
-// let allProjects = "";
-
-// const hardCodedAllProjects = {
-//    title: "All Projects",
-//    list: [allTodos],
-// }
-
-// const insideLocalStorageProjs = getFromLocalStorage(hardCodedAllProjects);
-
-// if (insideLocalStorageProjs == hardCodedAllProjects) {
-//    allProjects = hardCodedAllProjects;
-//    saveToLocalStorage(allProjects);
-// } 
-
-// else {
-//    allProjects = insideLocalStorageProjs;
-//    saveToLocalStorage(allProjects);
-// }
-
-const allTodos = {
-   title: "All Tasks",  
-   list: [],
+else {
+      allTodos = insideLocalStorageTodos;
+      saveToLocalStorage(allTodos);
 }
-saveToLocalStorage(allTodos);
 
-const allProjects = {
+let allProjects = "";
+
+const hardCodedAllProjects = {
    title: "All Projects",
    list: [allTodos],
 }
-saveToLocalStorage(allProjects);
+
+const insideLocalStorageProjs = getFromLocalStorage(hardCodedAllProjects);
+
+if (insideLocalStorageProjs == hardCodedAllProjects) {
+   allProjects = hardCodedAllProjects;
+   saveToLocalStorage(allProjects);
+} 
+
+else {
+   allProjects = insideLocalStorageProjs;
+   saveToLocalStorage(allProjects);
+}
+
+// const allTodos = {
+//    title: "All Tasks",  
+//    list: [],
+// }
+// saveToLocalStorage(allTodos);
+
+// const allProjects = {
+//    title: "All Projects",
+//    list: [allTodos],
+// }
+// saveToLocalStorage(allProjects);
 
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);

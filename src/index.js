@@ -1,5 +1,5 @@
 import "./style.css";
-import { allTodos, createTodo, findMatch, createNewProject, allProjects } from "./todo-logic.js";
+import { allTodos, createTodo, findMatch, createNewProject, allProjects, getFromLocalStorage } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
 createProjectList(allProjects);
@@ -75,19 +75,10 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
         }
     }
 
-    console.log(userInput);
     createNewProject(userInput.title);
     createProjectList(allProjects);
 })
 
 console.log(allProjects);
 console.log(allTodos);
-
-const newProj = createNewProject("New Proj");
-console.log(newProj);
-
-const newTodo = createTodo("New Task");
-newProj.addToProject("New Task");
-
-newProj.removeTodoFromProject("New Task");
 

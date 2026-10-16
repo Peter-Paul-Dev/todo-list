@@ -128,12 +128,9 @@ function displayTodoInProjects (targetTitle, arr) {
     projectDisplaySection.textContent = "";
     container.append(projectDisplaySection);
 
-    const currentStateOfArr = getFromLocalStorage(arr);
-    console.log(currentStateOfArr);
-
-    const insideTargetProject = findMatch(targetTitle, arr).list;
+    const insideTargetProject = getFromLocalStorage(findMatch(targetTitle, getFromLocalStorage(arr)));
     
-    insideTargetProject.forEach(todo => {
+    insideTargetProject.list.forEach(todo => {
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
         todoContainer.dataset.taskTitle = todo.title;
@@ -159,15 +156,6 @@ function displayTodoInProjects (targetTitle, arr) {
 
         markAsDoneButton.classList.add("mark-as-done");
 
-        function checkIfTaskIsAlreadyComplete (obj) {
-            if (obj.isComplete == true) {
-            const properties = document.querySelectorAll(".property");
-            properties.forEach((property) => {
-                property.classList.add("complete");
-                })
-            }
-        }
-
         const deleteTodoButton = document.createElement("button");
         deleteTodoButton.classList.add("delete");
         deleteTodoButton.textContent = "Delete";
@@ -182,7 +170,7 @@ function displayTodoInProjects (targetTitle, arr) {
         }
     })
 
-    outsideTargetProject.list = insideTargetProject;
+    outsideTargetProject = insideTargetProject;
 }
 
 projectDisplaySection.addEventListener("click", (e) => {
@@ -191,7 +179,6 @@ projectDisplaySection.addEventListener("click", (e) => {
 
             if (!clickedTask) {return};
 
-            console.log(clickedTask);
             displayTodo(clickedTask, outsideTargetProject);
         }
 
@@ -201,7 +188,6 @@ projectDisplaySection.addEventListener("click", (e) => {
             const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject);
             
             const displayedProperties = Array.from(infoBox.children).filter(item => item.classList.contains("property"));
-            console.log(displayedProperties);
 
             if (clickedTask.isComplete == false) {
                     clickedTask.changeCompleteStatus(true);
@@ -239,11 +225,9 @@ projectDisplaySection.addEventListener("click", (e) => {
 function createProjectList(arr) {
     listContainer.textContent = "";
 
-    const list = arr.list;
-
     const projectList = document.createElement("ul");
 
-    list.forEach(item => {
+    arr.list.forEach(item => {
         const projectItem = document.createElement("li");
         projectItem.textContent = item.title;
         projectItem.classList.add("project-array");
