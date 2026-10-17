@@ -58,6 +58,12 @@ else {
       saveToLocalStorage(allTodos);
 }
 
+// const allTodos = {
+//    title: "All Tasks",  
+//    list: [],
+// }
+// saveToLocalStorage(allTodos);
+
 let allProjects = "";
 
 const hardCodedAllProjects = {
@@ -76,12 +82,6 @@ else {
    allProjects = insideLocalStorageProjs;
    saveToLocalStorage(allProjects);
 }
-
-// const allTodos = {
-//    title: "All Tasks",  
-//    list: [],
-// }
-// saveToLocalStorage(allTodos);
 
 // const allProjects = {
 //    title: "All Projects",
@@ -152,10 +152,7 @@ function createTodo(title, description, dueDate, priority, notes) {
       });
    }
 
-   allTodos.list.push(todo);
-   saveToLocalStorage(todo);
-   saveToLocalStorage(allTodos);
-   saveToLocalStorage(allProjects);
+   
    return todo;
 }
 

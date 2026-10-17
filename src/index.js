@@ -1,8 +1,9 @@
 import "./style.css";
-import { allTodos, createTodo, findMatch, createNewProject, allProjects, getFromLocalStorage } from "./todo-logic.js";
+import { allTodos, createTodo, findMatch, createNewProject, allProjects, saveToLocalStorage, removeFromLocalStorage,getFromLocalStorage } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
 createProjectList(allProjects);
+displayTodoInProjects("All Tasks", allProjects);
 
 document.querySelector(".new-object").addEventListener("click", () => {
     const checkBoxContainer = document.getElementById("checkbox-field");
@@ -60,6 +61,10 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
         matchedProj.list.push(newTodo);
     })
 
+    allTodos.list.push(newTodo);
+    saveToLocalStorage(newTodo);
+    saveToLocalStorage(allTodos);
+    saveToLocalStorage(allProjects);
     displayTodoInProjects("All Tasks", allProjects);
 });
 
@@ -81,4 +86,3 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
 
 console.log(allProjects);
 console.log(allTodos);
-

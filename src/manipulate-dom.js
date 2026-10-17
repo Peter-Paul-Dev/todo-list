@@ -1,4 +1,5 @@
-import { allProjects, allTodos, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch } from "./todo-logic.js";
+import { te } from "date-fns/locale";
+import { allProjects, allTodos, createTodo, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
@@ -18,7 +19,7 @@ function displayTodo(targetTitle, arr) {
     container.append(todoDisplaySection);
 
     const targetTodo = findMatch(targetTitle, arr);
-
+   
     const todoContainer  = document.createElement("div");
     todoContainer.classList.add("todo-info");
     todoDisplaySection.append(todoContainer);
@@ -86,7 +87,7 @@ function displayTodo(targetTitle, arr) {
     })
 
     function setChangePriorityButtonText () {
-        if (targetTodo.priority == "Not urgent") {
+        if (targetTodo.priority == "Not urgent" || null) {
             changePriorityButton.textContent = "Mark as 'Urgent'";
         } 
         else {
@@ -99,7 +100,7 @@ function displayTodo(targetTitle, arr) {
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";
     deleteTodoButton.addEventListener("click", () => {
-        allTodos.deleteTodo(targetTitle);
+        allTodos.deleteTodo(targetTodo.title);
         todoContainer.textContent = "";
     });
     
@@ -128,25 +129,28 @@ function displayTodoInProjects (targetTitle, arr) {
     projectDisplaySection.textContent = "";
     container.append(projectDisplaySection);
 
-    const insideTargetProject = getFromLocalStorage(findMatch(targetTitle, getFromLocalStorage(arr)));
+    const insideTargetProject = getFromLocalStorage(findMatch(targetTitle, arr));
+    console.log(insideTargetProject);
     
     insideTargetProject.list.forEach(todo => {
+        const targetTodo = createTodo(todo.title, todo.description, todo.dueDate, todo.priority, todo.notes);
+
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
-        todoContainer.dataset.taskTitle = todo.title;
+        todoContainer.dataset.taskTitle = targetTodo.title;
         projectDisplaySection.append(todoContainer);
 
         const titleText = document.createElement("h1");
         titleText.classList.add("property");
-        titleText.textContent = todo.title;
+        titleText.textContent = targetTodo.title;
 
         const dueDateText = document.createElement("p");
         dueDateText.classList.add("property");
-        dueDateText.textContent = todo.dueDate;
+        dueDateText.textContent = targetTodo.dueDate;
 
         const markAsDoneButton = document.createElement("button");
         
-        if (todo.isComplete == true) {
+        if (targetTodo.isComplete == true) {
             markAsDoneButton.textContent = "Mark as Not Done";
         } 
         
@@ -162,7 +166,7 @@ function displayTodoInProjects (targetTitle, arr) {
 
         todoContainer.append(titleText, dueDateText, markAsDoneButton, deleteTodoButton);
 
-        if (todo.isComplete == true) {
+        if (targetTodo.isComplete == true) {
             const properties = document.querySelectorAll(".property");
             properties.forEach((property) => {
                 property.classList.add("complete");
