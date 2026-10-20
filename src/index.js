@@ -1,6 +1,5 @@
 import "./style.css";
-import { allTodos, allProjects, workingTodoList, workingProjectList, saveToLocalStorage, 
-    removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject } from "./todo-logic.js";
+import { workingTodoList, workingProjectList, saveToLocalStorage, findMatch, createTodo, createNewProject } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
 document.querySelector(".new-object").addEventListener("click", () => {

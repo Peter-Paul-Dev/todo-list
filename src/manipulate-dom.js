@@ -1,4 +1,4 @@
-import { workingTodoList, workingProjectList, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, } from "./todo-logic.js";
+import { workingTodoList, workingProjectList, saveToLocalStorage, findMatch, } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
