@@ -1,4 +1,3 @@
-import { te } from "date-fns/locale";
 import { allProjects, allTodos, createTodo, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
@@ -129,11 +128,12 @@ function displayTodoInProjects (targetTitle, arr) {
     projectDisplaySection.textContent = "";
     container.append(projectDisplaySection);
 
-    const insideTargetProject = getFromLocalStorage(findMatch(targetTitle, arr));
+    const insideTargetProject = findMatch(targetTitle, arr);
     console.log(insideTargetProject);
     
     insideTargetProject.list.forEach(todo => {
-        const targetTodo = createTodo(todo.title, todo.description, todo.dueDate, todo.priority, todo.notes);
+        const targetTodo = todo;
+        console.log(targetTodo);
 
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
@@ -209,9 +209,9 @@ projectDisplaySection.addEventListener("click", (e) => {
         else if (e.target.matches(".delete")) {
             const clickedButton = e.target;
             const infoBox = clickedButton.parentElement;
-            const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject).title;
+            const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject);
 
-            allTodos.deleteTodo(clickedTask);
+            allTodos.deleteTodo(clickedTask.title);
             infoBox.remove();
         }
 

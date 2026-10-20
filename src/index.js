@@ -2,9 +2,6 @@ import "./style.css";
 import { allTodos, createTodo, findMatch, createNewProject, allProjects, saveToLocalStorage, removeFromLocalStorage,getFromLocalStorage } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
-createProjectList(allProjects);
-displayTodoInProjects("All Tasks", allProjects);
-
 document.querySelector(".new-object").addEventListener("click", () => {
     const checkBoxContainer = document.getElementById("checkbox-field");
     checkBoxContainer.textContent = "";
@@ -52,7 +49,7 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
         parentProjects: formData.getAll("parentProjects"),
     };
 
-    const newTodo = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes);
+    const newTodo = createTodo(userInputs.title, userInputs.description, userInputs.dueDate, userInputs.priority, userInputs.notes, false);
     newTodo.parentProjects = newTodo.parentProjects.concat(userInputs.parentProjects);
     
     newTodo.parentProjects.slice(1).forEach((proj) => {
@@ -80,9 +77,15 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
         }
     }
 
-    createNewProject(userInput.title);
+    const newProj = createNewProject(userInput.title);
+    allProjects.list.push(newProj);
+    saveToLocalStorage(newProj);
+    saveToLocalStorage(allProjects);
     createProjectList(allProjects);
 })
+
+createProjectList(allProjects);
+displayTodoInProjects("All Tasks", allProjects);
 
 console.log(allProjects);
 console.log(allTodos);

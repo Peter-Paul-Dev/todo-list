@@ -1,13 +1,13 @@
 function saveToLocalStorage (target) {
-   localStorage.setItem(target.title, JSON.stringify(target));
+   localStorage.setItem(target.key, JSON.stringify(target));
 }
 
 function removeFromLocalStorage(target) {
-   localStorage.removeItem(target.title);
+   localStorage.removeItem(target.key);
 }
 
 function getFromLocalStorage(target) {
-   const jsonString = localStorage.getItem(target.title);
+   const jsonString = localStorage.getItem(target.key);
 
    if (jsonString) {
       const parsedString = JSON.parse(jsonString);
@@ -25,7 +25,7 @@ function findMatch(target, arr) {
        console.warn(`findMatch failed: Array for "${target}" is empty or undefined.`);
    }
    
-   const match = arr.list.find((item) => item.title == target);
+   const match = arr.list.find((item) => item.title || item.key == target);
 
    if (!match) {
        console.warn(`findMatch failed: No object found with title "${target}".`);
@@ -38,7 +38,7 @@ function findMatch(target, arr) {
 
 const allTodos = (function () {
    const hardCodedAllTodos = {
-      title: "All Tasks",
+      key: "All Tasks",
       list: [],
    }
 
@@ -50,13 +50,51 @@ const allTodos = (function () {
    
    else {
       return insideLocalStorageTodos;
-   }  
+   }
 })();
 saveToLocalStorage(allTodos);
 
+//to: myself,
+//consider making the restored arrays the working arrays
+//do this by making the arrays saved in localStorage "blueprints" where you save the data needed to make functioning objects with the factory function
+//this way you are essentially (re)building objects using instructions found in localStorage 
+//as opposed to trying finding a way to resurrect them to attach them to their methods
+//essentially, this is like building a house with a set of blueprints that gets modified whenever something in the house changes
+
+//you most likely need to give the working arrays a title property
+//it's probably best to just use the same title properties as the blueprints but that will definitely cause problems with findMatch() so you'll need to fix this
+//your best option is probably to rename the "title" property on the blueprint arrays to something else
+//I think "key" is a good name since that's what's used in localStorage
+//then use that property strictly for methods involving localStorage
+//keep "title" for the working arrays
+//this is the probably the best and quickest fix
+
+//the working arrays themselves should NOT be saved to localStorage
+//instead, whenever you "save" them, you're really just modifying the contents of the blueprints
+//so that when the app is closed or refreshed, the changes made to the working arrays will reflect on the blueprints
+
+//saving the todos and projects individually to localStorage may also be unnecessary
+//you're essentially using allTodos and allProjects to reconstruct everything
+//everything besides that that's saved may not be doing anything but take up unnecessary space but I'm still unsure if that's truly the case
+//still, try to find a way to make it so that allTodos and allProjects is all you need to rebuild everything 
+
+//while you're at it, try to see if you can refactor everything to use immutable methods instead of mutable ones
+//this will decrease bugs and unexpected behavior
+
+//this will no doubt take a lot of time and patience but it's possible
+//good luck. 
+
+const workingTodoList = {
+   title: "All Tasks",
+   list: allTodos.list.map(
+   item => createTodo(item.title, item.description, item.dueDate, item.priority, item.notes, item.isComplete)
+   ),
+}
+console.log(workingTodoList);
+
 const allProjects = (function() {
    const hardCodedAllProjects = {
-   title: "All Projects",
+   key: "All Projects",
    list: [allTodos],
    }
 
@@ -71,6 +109,12 @@ const allProjects = (function() {
    } 
 })();
 saveToLocalStorage(allProjects);
+
+const workingProjectList = {
+   title: "All Projects",
+   list: [workingTodoList, ...allProjects.list.slice(1).map((item) => createNewProject(item))],
+}
+console.log(workingProjectList);
 
 allTodos.deleteTodo = function(targetTitle) {
       const targetTodo = findMatch(targetTitle, allTodos);
@@ -97,7 +141,7 @@ allProjects.deleteProject = function(targetTitle) {
       }
 }  
 
-function createTodo(title, description, dueDate, priority, notes) {
+function createTodo(title, description, dueDate, priority, notes, isComplete) {
    const todo = {
       title: title,
       dueDate: dueDate,
@@ -105,7 +149,7 @@ function createTodo(title, description, dueDate, priority, notes) {
       priority: priority,
       notes: notes,
       parentProjects: ["allTodos"],
-      isComplete: false,
+      isComplete: isComplete,
    };
 
    todo.changePriority = function() {
@@ -134,12 +178,15 @@ function createTodo(title, description, dueDate, priority, notes) {
          }
       });
    }
-
    
    return todo;
 }
 
 function createNewProject(newProj) {
+   if (newProj == "All Tasks") {
+      return;
+   }
+
    if (allProjects.list.some(elem => elem.title == newProj)) {
       return;
    } 
@@ -168,9 +215,6 @@ function createNewProject(newProj) {
       targetTodo.parentProjects.push(proj.title);
    }
 
-   allProjects.list.push(proj);
-   saveToLocalStorage(proj);
-   saveToLocalStorage(allProjects);
    return proj;
 }   
 
