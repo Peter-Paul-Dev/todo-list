@@ -1,5 +1,6 @@
 import "./style.css";
-import { allTodos, createTodo, findMatch, createNewProject, allProjects, saveToLocalStorage, removeFromLocalStorage,getFromLocalStorage } from "./todo-logic.js";
+import { allTodos, allProjects, workingTodoList, workingProjectList, saveToLocalStorage, 
+    removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject } from "./todo-logic.js";
 import { displayTodoInProjects, createProjectList } from "./manipulate-dom.js";
 
 document.querySelector(".new-object").addEventListener("click", () => {
@@ -8,7 +9,7 @@ document.querySelector(".new-object").addEventListener("click", () => {
 
     const optionsData = [];
 
-    allProjects.list.slice(1).forEach(proj => {
+    workingProjectList.list.slice(1).forEach(proj => {
         const option = {
             name: "project-option",
             value: proj.title,
@@ -53,16 +54,16 @@ document.querySelector("#add-new-task").addEventListener("submit", function(e) {
     newTodo.parentProjects = newTodo.parentProjects.concat(userInputs.parentProjects);
     
     newTodo.parentProjects.slice(1).forEach((proj) => {
-        const matchedProj = findMatch(proj, allProjects);
+        const matchedProj = findMatch(proj, workingProjectList);
 
         matchedProj.list.push(newTodo);
     })
 
-    allTodos.list.push(newTodo);
+    workingTodoList.list.push(newTodo);
     saveToLocalStorage(newTodo);
-    saveToLocalStorage(allTodos);
-    saveToLocalStorage(allProjects);
-    displayTodoInProjects("All Tasks", allProjects);
+    saveToLocalStorage(workingTodoList);
+    saveToLocalStorage(workingProjectList);
+    displayTodoInProjects("All Tasks", workingProjectList);
 });
 
 document.querySelector("#add-new-project").addEventListener("submit", function(e) {
@@ -77,15 +78,17 @@ document.querySelector("#add-new-project").addEventListener("submit", function(e
         }
     }
 
+    if (workingProjectList.list.some(elem => elem.title == userInput.title)) {
+      return;
+   } 
+
     const newProj = createNewProject(userInput.title);
-    allProjects.list.push(newProj);
+
+    workingProjectList.list.push(newProj);
     saveToLocalStorage(newProj);
-    saveToLocalStorage(allProjects);
-    createProjectList(allProjects);
+    saveToLocalStorage(workingProjectList);
+    createProjectList(workingProjectList);
 })
 
-createProjectList(allProjects);
-displayTodoInProjects("All Tasks", allProjects);
-
-console.log(allProjects);
-console.log(allTodos);
+createProjectList(workingProjectList);
+displayTodoInProjects("All Tasks", workingProjectList);

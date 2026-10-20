@@ -1,13 +1,13 @@
 function saveToLocalStorage (target) {
-   localStorage.setItem(target.key, JSON.stringify(target));
+   localStorage.setItem(target.title, JSON.stringify(target));
 }
 
 function removeFromLocalStorage(target) {
-   localStorage.removeItem(target.key);
+   localStorage.removeItem(target.title);
 }
 
 function getFromLocalStorage(target) {
-   const jsonString = localStorage.getItem(target.key);
+   const jsonString = localStorage.getItem(target.title);
 
    if (jsonString) {
       const parsedString = JSON.parse(jsonString);
@@ -16,7 +16,10 @@ function getFromLocalStorage(target) {
    } 
    
    else {
-      console.warn("No object found with that key")
+      const nothingWasFound = "Nothing Was Found"
+
+      console.warn("No object found with that key");
+      return nothingWasFound;
    }
 }
 
@@ -25,7 +28,7 @@ function findMatch(target, arr) {
        console.warn(`findMatch failed: Array for "${target}" is empty or undefined.`);
    }
    
-   const match = arr.list.find((item) => item.title || item.key == target);
+   const match = arr.list.find((item) => item.title == target);
 
    if (!match) {
        console.warn(`findMatch failed: No object found with title "${target}".`);
@@ -34,17 +37,15 @@ function findMatch(target, arr) {
    return match;
 }
 
-//also find a way to reattach the appropriate methods to all objects retrieved from localStorage
-
 const allTodos = (function () {
    const hardCodedAllTodos = {
-      key: "All Tasks",
+      title: "All Tasks",
       list: [],
    }
 
    const insideLocalStorageTodos = getFromLocalStorage(hardCodedAllTodos);
 
-   if (insideLocalStorageTodos == hardCodedAllTodos) {
+   if (insideLocalStorageTodos == hardCodedAllTodos || insideLocalStorageTodos == "Nothing Was Found") {
       return hardCodedAllTodos;
    } 
    
@@ -52,55 +53,22 @@ const allTodos = (function () {
       return insideLocalStorageTodos;
    }
 })();
-saveToLocalStorage(allTodos);
-
-//to: myself,
-//consider making the restored arrays the working arrays
-//do this by making the arrays saved in localStorage "blueprints" where you save the data needed to make functioning objects with the factory function
-//this way you are essentially (re)building objects using instructions found in localStorage 
-//as opposed to trying finding a way to resurrect them to attach them to their methods
-//essentially, this is like building a house with a set of blueprints that gets modified whenever something in the house changes
-
-//you most likely need to give the working arrays a title property
-//it's probably best to just use the same title properties as the blueprints but that will definitely cause problems with findMatch() so you'll need to fix this
-//your best option is probably to rename the "title" property on the blueprint arrays to something else
-//I think "key" is a good name since that's what's used in localStorage
-//then use that property strictly for methods involving localStorage
-//keep "title" for the working arrays
-//this is the probably the best and quickest fix
-
-//the working arrays themselves should NOT be saved to localStorage
-//instead, whenever you "save" them, you're really just modifying the contents of the blueprints
-//so that when the app is closed or refreshed, the changes made to the working arrays will reflect on the blueprints
-
-//saving the todos and projects individually to localStorage may also be unnecessary
-//you're essentially using allTodos and allProjects to reconstruct everything
-//everything besides that that's saved may not be doing anything but take up unnecessary space but I'm still unsure if that's truly the case
-//still, try to find a way to make it so that allTodos and allProjects is all you need to rebuild everything 
-
-//while you're at it, try to see if you can refactor everything to use immutable methods instead of mutable ones
-//this will decrease bugs and unexpected behavior
-
-//this will no doubt take a lot of time and patience but it's possible
-//good luck. 
 
 const workingTodoList = {
    title: "All Tasks",
-   list: allTodos.list.map(
-   item => createTodo(item.title, item.description, item.dueDate, item.priority, item.notes, item.isComplete)
-   ),
+   list: allTodos.list.map(item => createTodo(item.title, item.description, item.dueDate, item.priority, item.notes, item.isComplete)),
 }
-console.log(workingTodoList);
+saveToLocalStorage(workingTodoList);
 
 const allProjects = (function() {
    const hardCodedAllProjects = {
-   key: "All Projects",
+   title: "All Projects",
    list: [allTodos],
    }
 
    const insideLocalStorageProjs = getFromLocalStorage(hardCodedAllProjects);
 
-   if (insideLocalStorageProjs == hardCodedAllProjects) {
+   if (insideLocalStorageProjs == hardCodedAllProjects || insideLocalStorageProjs == "Nothing Was Found") {
    return hardCodedAllProjects;
    } 
 
@@ -108,36 +76,36 @@ const allProjects = (function() {
    return insideLocalStorageProjs;
    } 
 })();
-saveToLocalStorage(allProjects);
 
 const workingProjectList = {
    title: "All Projects",
-   list: [workingTodoList, ...allProjects.list.slice(1).map((item) => createNewProject(item))],
+   list: [workingTodoList, ...allProjects.list.slice(1).map((item) => createNewProject(item.title))],
 }
-console.log(workingProjectList);
+saveToLocalStorage(workingProjectList);
 
-allTodos.deleteTodo = function(targetTitle) {
-      const targetTodo = findMatch(targetTitle, allTodos);
-      const todoIndex = allTodos.list.findIndex((item) => item.title == targetTodo.title);
+workingTodoList.deleteTodo = function(targetTitle) {
+      const targetTodo = findMatch(targetTitle, workingTodoList);
+      const todoIndex = workingTodoList.list.findIndex((item) => item.title == targetTodo.title);
 
       targetTodo.removeFromParents();
       targetTodo.parentProjects = [];
-      allTodos.list.splice(todoIndex, 1);
+      workingTodoList.list.splice(todoIndex, 1);
       removeFromLocalStorage(targetTodo);
+      saveToLocalStorage(workingTodoList);
 }
 
-allProjects.deleteProject = function(targetTitle) {
-      const targetProject = findMatch(targetTitle, allProjects);
-      const projIndex = allProjects.list.findIndex((arr) => arr.title == targetProject.title);
+workingProjectList.deleteProject = function(targetTitle) {
+      const targetProject = findMatch(targetTitle, workingProjectList);
+      const projIndex = workingProjectList.list.findIndex((arr) => arr.title == targetProject.title);
 
       if (targetProject.title == "All Tasks") {
          console.warn("You can't delete that");
       } 
       
       else {
-         allProjects.list.splice(projIndex, 1);
-         saveToLocalStorage(allProjects);
+         workingProjectList.list.splice(projIndex, 1);
          removeFromLocalStorage(targetProject);
+         saveToLocalStorage(workingProjectList);
       }
 }  
 
@@ -148,7 +116,7 @@ function createTodo(title, description, dueDate, priority, notes, isComplete) {
       description: description,
       priority: priority,
       notes: notes,
-      parentProjects: ["allTodos"],
+      parentProjects: ["All Tasks"],
       isComplete: isComplete,
    };
 
@@ -167,9 +135,9 @@ function createTodo(title, description, dueDate, priority, notes, isComplete) {
    }
 
    todo.removeFromParents = function() {
-      const projectsBesidesAllTodos = allProjects.list.slice(1);
+      const projectsBesidesAllTasks = workingProjectList.list.slice(1);
 
-      projectsBesidesAllTodos.forEach(arr => {
+      projectsBesidesAllTasks.forEach(arr => {
          const targetParentProj = arr.title;
          const todoParentProjs = todo.parentProjects;
          
@@ -183,14 +151,6 @@ function createTodo(title, description, dueDate, priority, notes, isComplete) {
 }
 
 function createNewProject(newProj) {
-   if (newProj == "All Tasks") {
-      return;
-   }
-
-   if (allProjects.list.some(elem => elem.title == newProj)) {
-      return;
-   } 
-
    const proj = {
       title: newProj,
       list: [],
@@ -205,12 +165,11 @@ function createNewProject(newProj) {
 
       proj.list.splice(todoIndex, 1);
       todoParentProjs.splice(parentProjIndex, 1);
-      saveToLocalStorage(allProjects);
-      removeFromLocalStorage(proj);
+      saveToLocalStorage(workingProjectList);
    }  
 
    proj.addToProject = function(targetTitle) {
-      const targetTodo = findMatch(targetTitle, allTodos);
+      const targetTodo = findMatch(targetTitle, workingTodoList);
       proj.list.push(targetTodo);
       targetTodo.parentProjects.push(proj.title);
    }
@@ -218,4 +177,4 @@ function createNewProject(newProj) {
    return proj;
 }   
 
-export { allTodos, allProjects, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject };
+export { allTodos, allProjects, workingTodoList, workingProjectList, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, createTodo, createNewProject };

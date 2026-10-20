@@ -1,4 +1,4 @@
-import { allProjects, allTodos, createTodo, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch } from "./todo-logic.js";
+import { workingTodoList, workingProjectList, saveToLocalStorage, removeFromLocalStorage, getFromLocalStorage, findMatch, } from "./todo-logic.js";
 
 const container = document.querySelector(".container");
 
@@ -99,7 +99,7 @@ function displayTodo(targetTitle, arr) {
     const deleteTodoButton = document.createElement("button");
     deleteTodoButton.textContent = "Delete";
     deleteTodoButton.addEventListener("click", () => {
-        allTodos.deleteTodo(targetTodo.title);
+        workingTodoList.deleteTodo(targetTodo.title);
         todoContainer.textContent = "";
     });
     
@@ -122,6 +122,9 @@ let outsideTargetProject = {
 }
 
 function displayTodoInProjects (targetTitle, arr) {
+    outsideTargetProject = {
+        list: [],
+    }
     todoDisplaySection.remove();
     projectDisplaySection.remove();
 
@@ -129,11 +132,9 @@ function displayTodoInProjects (targetTitle, arr) {
     container.append(projectDisplaySection);
 
     const insideTargetProject = findMatch(targetTitle, arr);
-    console.log(insideTargetProject);
     
     insideTargetProject.list.forEach(todo => {
         const targetTodo = todo;
-        console.log(targetTodo);
 
         const todoContainer  = document.createElement("div");
         todoContainer.classList.add("todo-info");
@@ -197,12 +198,18 @@ projectDisplaySection.addEventListener("click", (e) => {
                     clickedTask.changeCompleteStatus(true);
                     displayedProperties.forEach((property) => property.classList.add("complete"));
                     setMarkAsDoneButtonText(clickedTask, clickedButton);
+                    saveToLocalStorage(clickedTask);
+                    saveToLocalStorage(workingTodoList);
+                    saveToLocalStorage(workingProjectList);
             } 
                 
             else if (clickedTask.isComplete == true) {
                     clickedTask.changeCompleteStatus(false);
                     displayedProperties.forEach((property) => property.classList.remove("complete"));
                     setMarkAsDoneButtonText(clickedTask, clickedButton);
+                    saveToLocalStorage(clickedTask);
+                    saveToLocalStorage(workingTodoList);
+                    saveToLocalStorage(workingProjectList);
             }
         }
 
@@ -211,7 +218,8 @@ projectDisplaySection.addEventListener("click", (e) => {
             const infoBox = clickedButton.parentElement;
             const clickedTask = findMatch(infoBox.dataset.taskTitle, outsideTargetProject);
 
-            allTodos.deleteTodo(clickedTask.title);
+            workingTodoList.deleteTodo(clickedTask.title);
+            saveToLocalStorage(workingTodoList);
             infoBox.remove();
         }
 
@@ -245,10 +253,6 @@ function createProjectList(arr) {
             const buttonContainer = document.createElement("div");
             buttonContainer.classList.add("button-container");
 
-            const addTaskButton = document.createElement("button");
-            addTaskButton.textContent = "Add Task";
-            addTaskButton.classList.add("add-task");
-
             const deleteProjectButton = document.createElement("button");
             deleteProjectButton.textContent = "Delete";
             deleteProjectButton.classList.add("delete-project");
@@ -271,7 +275,7 @@ listContainer.addEventListener("click", (e) => {
 
             if (!clickedProject) {return};
 
-            displayTodoInProjects(clickedProject, allProjects);
+            displayTodoInProjects(clickedProject, workingProjectList);
         } 
         
         else if (e.target.matches(".delete-project")) {
@@ -279,8 +283,9 @@ listContainer.addEventListener("click", (e) => {
 
             if (!clickedProject) {return};
 
-            allProjects.deleteProject(clickedProject);
-            createProjectList(allProjects);
+            workingProjectList.deleteProject(clickedProject);
+            saveToLocalStorage(workingProjectList);
+            createProjectList(workingProjectList);
         }
     })
 
